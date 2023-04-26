@@ -14,7 +14,7 @@ function App() {
 			</div>
 			<h1>Vite + React</h1>
 			<div className="card">
-				<p className="">
+				<p className="text-2xl">
 					Edit <code>src/App.tsx</code> and save to test HMR
 				</p>
 			</div>
