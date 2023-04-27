@@ -34,21 +34,24 @@ const Header = () => {
 						className={`mr-8 ${
 							pathname === '/coins' &&
 							'dark:bg-darkIntComponentBg bg-lightModeBgGray md:px-4 py-2 rounded-md'
-						}`}
+						} hidden md:inline-block`}
 					>
 						Coins
 					</Link>
 					<Link
 						to="/portfolio"
-						className={`
-							${
-								pathname === '/portfolio' &&
-								'dark:bg-darkIntComponentBg bg-lightModeBgGray md:px-4 py-2 rounded-md'
-							}`}
+						className={`${
+							pathname === '/portfolio' &&
+							'dark:bg-darkIntComponentBg bg-lightModeBgGray md:px-4 py-2 rounded-md'
+						} hidden md:inline-block`}
 					>
 						Portfolio
 					</Link>
+					<h1 className="font-medium text-lg md:hidden">
+						{pathname === '/coins' ? 'Coins' : 'Portfolio'}
+					</h1>
 				</div>
+
 				<div className="flex-1 flex justify-end">
 					<form
 						onSubmit={handleSearchSubmit}
@@ -57,14 +60,14 @@ const Header = () => {
 						<input
 							type="text"
 							placeholder="Search..."
-							className="dark:bg-darkIntComponentBg dark:text-darkModeText bg-lightModeBgGray w-3/4 rounded-md py-2 md:px-4 px-0 md:mr-2 focus:outline-none focus:ring-2 focus:ring-darkModeText focus:border-transparent"
-							style={{ paddingLeft: '30px' }}
+							className="hidden md:inline-block dark:bg-darkIntComponentBg dark:text-darkModeText bg-lightModeBgGray md:w-3/4 rounded-md py-2 md:px-4 px-0 md:mr-2 focus:outline-none focus:ring-2 focus:ring-darkModeText focus:border-transparent"
+							style={{ paddingLeft: '36px' }}
 						/>
-						<SearchIcon className="absolute w-4 left-40 ml-0.5" />
+						<SearchIcon className="hidden md:inline-block absolute md:w-4 md:left-20 md:ml-7 lg:left-40 lg:ml-0.5 lg:mr-5" />
 					</form>
 					<select
 						name="currency"
-						className="dark:bg-darkIntComponentBg dark:text-darkModeText bg-lightModeBgGray rounded-md px-4 py-2  md:mr-2 focus:outline-none focus:ring-2 focus:ring-darkModeText focus:border-transparent cursor-pointer"
+						className="dark:bg-darkIntComponentBg dark:text-darkModeText bg-lightModeBgGray rounded-md px-4 py-2 mr-2 focus:outline-none focus:ring-2 focus:ring-darkModeText focus:border-transparent cursor-pointer"
 					>
 						<option value="USD">
 							<div className="dark:bg-darkNonIntComponentBg rounded-full p-2 ">
