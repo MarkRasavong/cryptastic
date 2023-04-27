@@ -4,7 +4,7 @@
 @tailwind utilities;
 
 @layer components {
-	.component-shape {
-		@apply bg-lightModeBgGray dark:bg-darkNonIntComponentBg dark:text-darkModeText rounded-md;
+	.componentShape {
+		@apply bg-lightModeBgGray dark:bg-darkIntComponentBg dark:text-darkModeText rounded-md;
 	}
 }
