@@ -19,39 +19,37 @@ const Header = () => {
 		// do something with searchQuery
 	};
 
+	const linkTabs = ['Coins', 'Portfolio'];
+	const fiatCurrencies = [
+		{ value: 'USD', symbol: '$' },
+		{ value: 'EUR', symbol: '€' },
+		{ value: 'GBP', symbol: '£' },
+	];
+
 	return (
 		<header
 			className={`${
-				darkMode
-					? 'dark:bg-darkNonIntComponentBg dark:text-darkModeText'
-					: 'bg-lightModeWhite'
+				darkMode ? 'dark:bg-darkNonIntComponentBg dark:text-darkModeText' : 'bg-lightModeWhite'
 			} p-4`}
 		>
 			<nav className="flex justify-between items-center max-w-screen-lg mx-auto">
 				<div className="flex-3">
-					<Link
-						to="/coins"
-						className={`mr-8 ${
-							pathname === '/coins' &&
-							'dark:bg-darkIntComponentBg bg-lightModeBgGray md:px-4 py-2 rounded-md'
-						} hidden md:inline-block`}
-					>
-						Coins
-					</Link>
-					<Link
-						to="/portfolio"
-						className={`${
-							pathname === '/portfolio' &&
-							'dark:bg-darkIntComponentBg bg-lightModeBgGray md:px-4 py-2 rounded-md'
-						} hidden md:inline-block`}
-					>
-						Portfolio
-					</Link>
-					<h1 className="font-medium text-lg md:hidden">
+					<h1 className="font-bold text-2xl md:hidden">
 						{pathname === '/coins' ? 'Coins' : 'Portfolio'}
 					</h1>
+					{linkTabs.map((link, idx) => (
+						<Link
+							to={`/${link.toLowerCase()}`}
+							className={`mr-8 ${
+								pathname === `/${link.toLowerCase()}` &&
+								'dark:bg-darkIntComponentBg bg-lightModeBgGray md:px-4 py-2 rounded-md'
+							} hidden md:inline-block`}
+							key={`tab-${link}_${idx}`}
+						>
+							{link}
+						</Link>
+					))}
 				</div>
-
 				<div className="flex-1 flex justify-end">
 					<form
 						onSubmit={handleSearchSubmit}
@@ -67,31 +65,26 @@ const Header = () => {
 					</form>
 					<select
 						name="currency"
-						className="dark:bg-darkIntComponentBg dark:text-darkModeText bg-lightModeBgGray rounded-md px-4 py-2 mr-2 focus:outline-none focus:ring-2 focus:ring-darkModeText focus:border-transparent cursor-pointer"
+						className={
+							'dark:bg-darkIntComponentBg dark:text-darkModeText bg-lightModeBgGray rounded-md px-4 py-2 mr-2 focus:outline-none focus:ring-2 focus:ring-darkModeText focus:border-transparent cursor-pointer'
+						}
 					>
-						<option value="USD">
-							<div className="dark:bg-darkNonIntComponentBg rounded-full p-2 ">
-								$
-							</div>{' '}
-							USD
-						</option>
-						<option value="EUR">
-							<span className="dark:bg-darkNonIntComponentBg rounded-full p-2">
-								€
-							</span>{' '}
-							EUR
-						</option>
-						<option value="GBP">
-							<div className="dark:bg-darkNonIntComponentBg rounded-full p-2 ">
-								£
-							</div>{' '}
-							GBP
-						</option>
+						{fiatCurrencies.map(({ value, symbol }, index) => (
+							<option
+								value={value}
+								key={value}
+								className={`${index === 0 ? 'rounded-t-md ' : ''}${
+									index === fiatCurrencies.length - 1 ? 'rounded-b-md' : ''
+								}`}
+							>
+								{symbol} {value}
+							</option>
+						))}
 					</select>
 					<button
 						type="button"
 						onClick={handleThemeToggle}
-						className="dark:bg-darkIntComponentBg dark:text-darkModeText bg-lightModeBgGray rounded-md p-2  focus:outline-none focus:ring-2 focus:ring-darkModeText focus:border-transparent"
+						className="dark:bg-darkIntComponentBg dark:text-darkModeText bg-lightModeBgGray rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-darkModeText focus:border-transparent"
 					>
 						<ThemeToggleIcon />
 					</button>
