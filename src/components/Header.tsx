@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import ThemeToggleIcon from './icons/ThemeToggleIcon';
 import SearchIcon from './icons/SearchIcon';
+import { useAppDispatch, useAppSelector } from '../redux/app/hooks';
+import { toggleDarkMode } from '../features/theme';
 
 const Header = () => {
 	const { pathname } = useLocation();
+	const dispatch = useAppDispatch();
+	const { darkMode } = useAppSelector((state) => state.theme);
 
 	const handleThemeToggle = () => {
-		//dispatch to toggle theme
+		dispatch(toggleDarkMode());
 	};
 
 	const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -16,7 +20,13 @@ const Header = () => {
 	};
 
 	return (
-		<header className="dark:bg-darkNonIntComponentBg bg-lightModeWhite dark:text-darkModeText p-4">
+		<header
+			className={`${
+				darkMode
+					? 'dark:bg-darkNonIntComponentBg dark:text-darkModeText'
+					: 'bg-lightModeWhite'
+			} p-4`}
+		>
 			<nav className="flex justify-between items-center max-w-screen-lg mx-auto">
 				<div className="flex-3">
 					<Link
