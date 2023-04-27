@@ -28,15 +28,18 @@ const Header = () => {
 
 	return (
 		<header
+			role="banner"
 			className={`${
 				darkMode ? 'dark:bg-darkNonIntComponentBg dark:text-darkModeText' : 'bg-lightModeWhite'
 			} p-4`}
 		>
 			<nav className="flex justify-between items-center max-w-screen-lg mx-auto">
 				<div className="flex-3">
-					<h1 className="font-bold text-2xl md:hidden">
-						{pathname === '/coins' ? 'Coins' : 'Portfolio'}
-					</h1>
+					<div>
+						<h1 className="font-bold text-2xl md:hidden">
+							{pathname === '/coins' ? 'Coins' : 'Portfolio'}
+						</h1>
+					</div>
 					{linkTabs.map((link, idx) => (
 						<Link
 							to={`/${link.toLowerCase()}`}
