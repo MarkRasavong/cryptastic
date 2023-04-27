@@ -1,3 +1,10 @@
+/* prettier-ignore */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+	.component-shape {
+		@apply bg-lightModeBgGray dark:bg-darkNonIntComponentBg dark:text-darkModeText rounded-md;
+	}
+}

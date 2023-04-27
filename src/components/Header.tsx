@@ -61,17 +61,12 @@ const Header = () => {
 						<input
 							type="text"
 							placeholder="Search..."
-							className="hidden md:inline-block dark:bg-darkIntComponentBg dark:text-darkModeText bg-lightModeBgGray md:w-3/4 rounded-md py-2 md:px-4 px-0 md:mr-2 focus:outline-none focus:ring-2 focus:ring-darkModeText focus:border-transparent"
+							className="component-shape hidden md:inline-block md:w-3/4 py-2 md:px-4 px-0 md:mr-2 dark:focus:ring-darkModeText"
 							style={{ paddingLeft: '36px' }}
 						/>
 						<SearchIcon className="hidden md:inline-block absolute md:w-4 md:left-20 md:ml-7 lg:left-40 lg:ml-0.5 lg:mr-5" />
 					</form>
-					<select
-						name="currency"
-						className={
-							'dark:bg-darkIntComponentBg dark:text-darkModeText bg-lightModeBgGray rounded-md px-4 py-2 mr-2 focus:outline-none focus:ring-2 focus:ring-darkModeText focus:border-transparent cursor-pointer'
-						}
-					>
+					<select name="currency" className={'component-shape px-4 py-2 mr-2 cursor-pointer'}>
 						{fiatCurrencies.map(({ value, symbol }, index) => (
 							<option
 								value={value}
@@ -87,7 +82,7 @@ const Header = () => {
 					<button
 						type="button"
 						onClick={handleThemeToggle}
-						className="dark:bg-darkIntComponentBg dark:text-darkModeText bg-lightModeBgGray rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-darkModeText focus:border-transparent"
+						className="component-shape p-2 focus:outline-none focus:ring-2 focus:ring-darkModeText focus:border-transparent"
 					>
 						<ThemeToggleIcon />
 					</button>
