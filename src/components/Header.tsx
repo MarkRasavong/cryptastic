@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import ThemeToggleIcon from './icons/ThemeToggleIcon';
 import SearchIcon from './icons/SearchIcon';
@@ -60,7 +60,7 @@ const Header = () => {
 							className="dark:bg-darkIntComponentBg dark:text-darkModeText bg-lightModeBgGray w-3/4 rounded-md py-2 md:px-4 px-0 md:mr-2 focus:outline-none focus:ring-2 focus:ring-darkModeText focus:border-transparent"
 							style={{ paddingLeft: '30px' }}
 						/>
-						<SearchIcon fill="#000" className="absolute w-4 left-40 ml-0.5" />
+						<SearchIcon className="absolute w-4 left-40 ml-0.5" />
 					</form>
 					<select
 						name="currency"
@@ -90,7 +90,7 @@ const Header = () => {
 						onClick={handleThemeToggle}
 						className="dark:bg-darkIntComponentBg dark:text-darkModeText bg-lightModeBgGray rounded-md p-2  focus:outline-none focus:ring-2 focus:ring-darkModeText focus:border-transparent"
 					>
-						<ThemeToggleIcon fill="#000" />
+						<ThemeToggleIcon />
 					</button>
 				</div>
 			</nav>
