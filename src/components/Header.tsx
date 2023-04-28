@@ -66,7 +66,7 @@ const Header = () => {
 							className="componentShape hidden md:inline-block md:w-3/4 py-2 md:px-4 px-0 md:mr-2 dark:focus:ring-darkModeText"
 							style={{ paddingLeft: '36px' }}
 						/>
-						<SearchIcon className="hidden md:inline-block absolute md:w-4 md:left-20 md:ml-7 lg:left-40 lg:ml-0.5 lg:mr-5" />
+						<SearchIcon className="hidden md:inline-block absolute md:w-4 md:left-20 md:ml-7 lg:left-40 lg:ml-0.5 lg:mr-5 top-1/2 transform -translate-y-1/2" />
 					</form>
 					<select name="currency" className={'componentShape px-4 py-2 mr-2 cursor-pointer'}>
 						{fiatCurrencies.map(({ value, symbol }, index) => (
