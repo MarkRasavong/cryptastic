@@ -15,6 +15,7 @@ export default {
 				darkGraphGreen: '#fe8c01',
 				darkGraphBlue: '#1c529d',
 				lightModeBgGray: '#f7f7f7',
+				lightModeBgFooterMobile: 'rgb(211, 208, 201)',
 				lightModeGraphGreen: '#5983be',
 				lightModeGraphBlue: '#5983be',
 				lightModeWhite: '#ffffff',
