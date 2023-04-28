@@ -44,7 +44,7 @@ const Header = () => {
 					</div>
 					{linkTabs.map((link, idx) => (
 						<Link
-							to={`${link === 'Overview' ? '/' : `/${link.toLowerCase()}`}`}
+							to={`${link === '/' ? '/' : `/${link.toLowerCase()}`}`}
 							className={`mr-8 ${
 								pathname === `/${link.toLowerCase()}` &&
 								'dark:bg-darkIntComponentBg bg-lightModeBgGray md:px-4 py-2 rounded-md'
