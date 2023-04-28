@@ -19,7 +19,7 @@ const Header = () => {
 		// do something with searchQuery
 	};
 
-	const linkTabs = ['Coins', 'Portfolio'];
+	const linkTabs = ['Overview', 'Portfolio'];
 	const fiatCurrencies = [
 		{ value: 'USD', symbol: '$' },
 		{ value: 'EUR', symbol: '€' },
@@ -37,12 +37,14 @@ const Header = () => {
 				<div className="flex-3">
 					<div>
 						<h1 className="font-bold text-2xl md:hidden">
-							{pathname === '/coins' ? 'Coins' : 'Portfolio'}
+							{pathname === '/'
+								? 'Overview'
+								: pathname.replace('/', '').toUpperCase().slice(0, 1) + pathname.slice(2)}
 						</h1>
 					</div>
 					{linkTabs.map((link, idx) => (
 						<Link
-							to={`/${link.toLowerCase()}`}
+							to={`${link === 'Overview' ? '/' : `/${link.toLowerCase()}`}`}
 							className={`mr-8 ${
 								pathname === `/${link.toLowerCase()}` &&
 								'dark:bg-darkIntComponentBg bg-lightModeBgGray md:px-4 py-2 rounded-md'
