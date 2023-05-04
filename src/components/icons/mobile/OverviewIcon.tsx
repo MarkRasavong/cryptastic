@@ -20,9 +20,9 @@ export const OverviewIcon: React.FC<OverviewIconProps> = ({ selected, darkMode, 
 					id="Overview"
 					transform="translate(130 911.027)"
 					fill={darkMode ? '#fff' : selected ? '#00ff5f' : '#000'}
-					font-size="11"
-					font-family="Poppins, sans-serif"
-					font-weight="600"
+					fontSize="11"
+					fontFamily="Poppins, sans-serif"
+					fontWeight="600"
 				>
 					<tspan x="0" y="0">
 						Overview

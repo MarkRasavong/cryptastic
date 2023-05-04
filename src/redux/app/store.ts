@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import theme from '../../features/theme';
+import currency from '../../features/currency';
 
 export const store = configureStore({
 	reducer: {
 		theme,
+		currency,
 	},
 });
 

@@ -4,14 +4,20 @@ import ThemeToggleIcon from './icons/ThemeToggleIcon';
 import SearchIcon from './icons/SearchIcon';
 import { useAppDispatch, useAppSelector } from '../redux/app/hooks';
 import { toggleDarkMode } from '../features/theme';
+import { setCurrency } from '../features/currency';
 
 const Header = () => {
-	const { pathname } = useLocation();
 	const dispatch = useAppDispatch();
 	const { darkMode } = useAppSelector((state) => state.theme);
+	const { currency: currencyValue } = useAppSelector((state) => state.currency);
+	const { pathname } = useLocation();
 
 	const handleThemeToggle = () => {
 		dispatch(toggleDarkMode());
+	};
+
+	const currencyOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		dispatch(setCurrency(e.target.value));
 	};
 
 	const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -21,9 +27,9 @@ const Header = () => {
 
 	const linkTabs = ['Overview', 'Portfolio'];
 	const fiatCurrencies = [
-		{ value: 'USD', symbol: '$' },
-		{ value: 'EUR', symbol: '€' },
-		{ value: 'GBP', symbol: '£' },
+		{ title: 'USD', symbol: '$', value: 'usd' },
+		{ title: 'EUR', symbol: '€', value: 'eur' },
+		{ title: 'GBP', symbol: '£', value: 'gbp' },
 	];
 
 	return (
@@ -68,16 +74,21 @@ const Header = () => {
 						/>
 						<SearchIcon className="hidden md:inline-block absolute md:w-4 md:left-20 md:ml-7 lg:left-40 lg:ml-0.5 lg:mr-5 top-1/2 transform -translate-y-1/2" />
 					</form>
-					<select name="currency" className={'componentShape px-4 py-2 mr-2 cursor-pointer'}>
-						{fiatCurrencies.map(({ value, symbol }, index) => (
+					<select
+						name="currency"
+						onChange={(e) => currencyOnChange(e)}
+						value={currencyValue}
+						className={'componentShape px-4 py-2 mr-2 cursor-pointer'}
+					>
+						{fiatCurrencies.map(({ title, symbol, value }, index) => (
 							<option
 								value={value}
-								key={value}
+								key={`option_${title}`}
 								className={`${index === 0 ? 'rounded-t-md ' : ''}${
 									index === fiatCurrencies.length - 1 ? 'rounded-b-md' : ''
 								}`}
 							>
-								{symbol} {value}
+								{symbol} {title}
 							</option>
 						))}
 					</select>

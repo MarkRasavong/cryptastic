@@ -12,7 +12,7 @@ function App() {
 		<BrowserRouter>
 			<div className={`${darkMode && 'dark'} min-h-screen flex flex-col`}>
 				<Header />
-				<main className="dark:bg-darkBg bg-lightModeBgGray flex-grow text-white">
+				<main className="dark:bg-darkBg bg-lightModeBgGray flex-grow dark:text-white">
 					<Routes>
 						<Route path="/" element={<OverviewPage />} />
 						<Route path="/portfolio" element={<PortolioPage />} />
