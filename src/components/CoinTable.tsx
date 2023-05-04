@@ -44,23 +44,31 @@ export const CoinTable: React.FC = () => {
 		setFilterSelection(Object(filter));
 	};
 
-	console.log(filterSelection);
-
 	return (
 		<>
-			<div className="overflow-x-auto rounded-md table-fixed w-full md:w-11/12 md:mx-auto">
+			<div className="overflow-x-auto rounded-md table-fixed w-full">
 				<table className="bg-darkNonIntComponentBg">
 					<thead>
 						<tr>
 							{Object.values(filterSelection).map(({ title, id, prop, upArrow }) => (
 								<th
-									className="w-1/9 py-2 px-4"
+									className="py-2 px-4 w-max"
 									key={id}
 									onClick={() => setFilterArrowDirection(id)}
 								>
-									{title} {upArrow ? <FaSortAmountUp /> : <FaSortAmountDown />}
+									<span className="flex items-center">
+										<span className="mr-1">{title}</span>
+										{upArrow ? (
+											<FaSortAmountUp size={'0.8rem'} />
+										) : (
+											<FaSortAmountDown size={'0.8rem'} />
+										)}
+									</span>
 								</th>
 							))}
+							<th className="py-2 px-4 w-max">24h Volume/Market Cap</th>
+							<th className="py-2 px-4 w-max">Circulating/Total Supply</th>
+							<th className="py-2 px-4 w-max">Last 7d</th>
 						</tr>
 					</thead>
 					<tbody>
