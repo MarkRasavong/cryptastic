@@ -9,7 +9,7 @@ import { setCurrency } from '../features/currency';
 const Header = () => {
 	const dispatch = useAppDispatch();
 	const { darkMode } = useAppSelector((state) => state.theme);
-	const { currency: currencyValue } = useAppSelector((state) => state.currency);
+	const { value: currencyValue } = useAppSelector((state) => state.currency);
 	const { pathname } = useLocation();
 
 	const handleThemeToggle = () => {
