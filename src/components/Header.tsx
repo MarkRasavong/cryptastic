@@ -20,8 +20,8 @@ const Header = () => {
 		dispatch(setCurrency(e.target.value));
 	};
 
-	const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
+	const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
 		// do something with searchQuery
 	};
 
