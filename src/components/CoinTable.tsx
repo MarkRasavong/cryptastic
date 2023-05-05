@@ -5,6 +5,7 @@ import axios from 'axios';
 import { CoinGeckoApiProps } from '../constants';
 import { roundToTwoDecimalPlaces, setCurrency } from '../utils';
 import { TickerSymbolDown, TickerSymbolUp } from './icons/TickerSymbol';
+import ProgressBar from './ProgressBar';
 
 export const CoinTable: React.FC = () => {
 	const currency = useAppSelector((state) => state.currency.value);
@@ -145,8 +146,14 @@ export const CoinTable: React.FC = () => {
 											{roundToTwoDecimalPlaces(coin.price_change_percentage_7d_in_currency)}
 										</span>
 									</td>
-									<td></td>
-									<td></td>
+									<td>
+										<ProgressBar values={{ first: coin.total_volume, second: coin.market_cap }} />
+									</td>
+									<td>
+										<ProgressBar
+											values={{ first: coin.circulating_supply, second: coin.total_supply }}
+										/>
+									</td>
 									<td></td>
 								</tr>
 							))}
