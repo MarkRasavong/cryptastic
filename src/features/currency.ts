@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { currencyType } from '../utils';
 
 const initialState = {
-	value: localStorage.getItem('currency') || 'usd',
+	value: (localStorage.getItem('currency') as currencyType) || 'usd',
 };
 
 export const currencySlice = createSlice({

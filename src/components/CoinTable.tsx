@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
 import { useAppSelector } from '../redux/app/hooks';
+import axios from 'axios';
+import { CoinGeckoApiProps } from '../constants';
+import { roundToTwoDecimalPlaces, setCurrency } from '../utils';
+import { TickerSymbolDown, TickerSymbolUp } from './icons/TickerSymbol';
 
 export const CoinTable: React.FC = () => {
 	const currency = useAppSelector((state) => state.currency.value);
+	const [coins, setCoins] = useState<null | CoinGeckoApiProps[]>(null);
+	const [apiLoading, setApiLoading] = useState(false);
+	const [itemsPerPage, setItemsPerPage] = useState(25);
 	const [filterSelection, setFilterSelection] = useState({
 		marketCapRank: {
 			id: 1,
@@ -33,6 +40,21 @@ export const CoinTable: React.FC = () => {
 		},
 	});
 
+	const getCoinData = async () => {
+		try {
+			setApiLoading(true);
+			const { data } = await axios(
+				`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=${itemsPerPage}&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
+			);
+			setCoins(data);
+			setApiLoading(false);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	console.log(coins);
+
 	const setFilterArrowDirection = (id: number) => {
 		const filter = Object.values(filterSelection).map((item) => {
 			if (item.id === id) {
@@ -43,6 +65,10 @@ export const CoinTable: React.FC = () => {
 		});
 		setFilterSelection(Object(filter));
 	};
+
+	useEffect(() => {
+		getCoinData();
+	}, []);
 
 	return (
 		<>
@@ -72,17 +98,58 @@ export const CoinTable: React.FC = () => {
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td className="py-2 px-4 border-b border-gray-300">1</td>
-							<td className="py-2 px-4 border-b border-gray-300">2</td>
-							<td className="py-2 px-4 border-b border-gray-300">3</td>
-							<td className="py-2 px-4 border-b border-gray-300">4</td>
-							<td className="py-2 px-4 border-b border-gray-300">5</td>
-							<td className="py-2 px-4 border-b border-gray-300">6</td>
-							<td className="py-2 px-4 border-b border-gray-300">7</td>
-							<td className="py-2 px-4 border-b border-gray-300">8</td>
-							<td className="py-2 px-4 border-b border-gray-300">9</td>
-						</tr>
+						{coins &&
+							coins.map((coin) => (
+								<tr key={`td_${coin.name}`} className="py-2 px-4 border-b border-gray-300 w-max">
+									<td>
+										<div>{coin.market_cap_rank}</div>
+									</td>
+									<td className="flex">
+										<img src={coin.image} alt={coin.name + ' logo'} className="mr-2 w-5 h-5" />
+										<span className="flex">
+											<p className="mr-1">{coin.name}</p>{' '}
+											<p>{`(${coin.symbol.toLocaleUpperCase()})`}</p>
+										</span>
+									</td>
+									<td>
+										{setCurrency(currency)}
+										{coin.current_price}
+									</td>
+									<td>
+										<span className="flex items-center">
+											{coin.price_change_percentage_1h_in_currency > 0 ? (
+												<TickerSymbolUp />
+											) : (
+												<TickerSymbolDown />
+											)}
+											{roundToTwoDecimalPlaces(coin.price_change_percentage_1h_in_currency)}
+										</span>
+									</td>
+									<td>
+										<span className="flex items-center">
+											{coin.price_change_percentage_24h_in_currency > 0 ? (
+												<TickerSymbolUp />
+											) : (
+												<TickerSymbolDown />
+											)}
+											{roundToTwoDecimalPlaces(coin.price_change_percentage_24h_in_currency)}
+										</span>
+									</td>
+									<td>
+										<span className="flex items-center">
+											{coin.price_change_percentage_7d_in_currency > 0 ? (
+												<TickerSymbolUp />
+											) : (
+												<TickerSymbolDown />
+											)}
+											{roundToTwoDecimalPlaces(coin.price_change_percentage_7d_in_currency)}
+										</span>
+									</td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							))}
 					</tbody>
 				</table>
 			</div>
