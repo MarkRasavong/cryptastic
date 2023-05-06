@@ -15,3 +15,14 @@
 *::after {
 	font-family: 'Poppins', sans-serif;
 }
+
+.no-scrollbar {
+	overflow-x: scroll;
+	overflow-y: hidden;
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+	display: none; /* Chrome, Safari, and Opera */
+}

@@ -74,7 +74,7 @@ export const CoinTable: React.FC = () => {
 
 	return (
 		<>
-			<div className="overflow-x-hidden mx-auto w-full text-xs whitespace-nowrap">
+			<div className="mx-auto w-full text-xs whitespace-nowrap no-scrollbar">
 				<table className="dark:bg-darkNonIntComponentBg bg-lightModeWhite rounded-lg">
 					<thead>
 						<tr>
@@ -102,7 +102,10 @@ export const CoinTable: React.FC = () => {
 					<tbody>
 						{coins &&
 							coins.map((coin) => (
-								<tr key={`td_${coin.name}`}>
+								<tr
+									key={`td_${coin.name}`}
+									className="border-b dark:border-darkIntComponentBg border-x-lightModeBgFooterMobile"
+								>
 									<td className="text-center">
 										<div>{coin.market_cap_rank}</div>
 									</td>
