@@ -6,6 +6,7 @@ import { CoinGeckoApiProps } from '../constants';
 import { roundToTwoDecimalPlaces, setCurrency } from '../utils';
 import { TickerSymbolDown, TickerSymbolUp } from './icons/TickerSymbol';
 import ProgressBar from './ProgressBar';
+import SmallGraph from './SmallGraph';
 
 export const CoinTable: React.FC = () => {
 	const currency = useAppSelector((state) => state.currency.value);
@@ -154,7 +155,9 @@ export const CoinTable: React.FC = () => {
 											values={{ first: coin.circulating_supply, second: coin.total_supply }}
 										/>
 									</td>
-									<td></td>
+									<td>
+										<SmallGraph graphData={coin.sparkline_in_7d.price} />
+									</td>
 								</tr>
 							))}
 					</tbody>
