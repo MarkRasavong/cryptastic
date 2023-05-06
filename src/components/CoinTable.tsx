@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
-import axios from 'axios';
 import { TickerSymbolDown, TickerSymbolUp } from './icons/TickerSymbol';
 import ProgressBar from './ProgressBar';
 import SmallGraph from './SmallGraph';
-import { CoinGeckoApiProps } from '../constants';
 import { useAppSelector } from '../redux/app/hooks';
 import { roundToTwoDecimalPlaces, setCurrency } from '../utils';
+import { CoinGeckoApiProps } from '../constants';
 
-export const CoinTable: React.FC = () => {
+interface CoinTableProps {
+	coins: null | CoinGeckoApiProps[];
+}
+
+export const CoinTable: React.FC<CoinTableProps> = ({ coins }) => {
 	const currency = useAppSelector((state) => state.currency.value);
-	const [coins, setCoins] = useState<null | CoinGeckoApiProps[]>(null);
-	const [apiLoading, setApiLoading] = useState(false);
-	const [itemsPerPage, setItemsPerPage] = useState(25);
 	const [filterSelection, setFilterSelection] = useState({
 		marketCapRank: {
 			id: 1,
@@ -42,21 +42,6 @@ export const CoinTable: React.FC = () => {
 		},
 	});
 
-	const getCoinData = async () => {
-		try {
-			setApiLoading(true);
-			const { data } = await axios(
-				`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=${itemsPerPage}&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
-			);
-			setCoins(data);
-			setApiLoading(false);
-		} catch (error) {
-			console.log(error);
-		}
-	};
-
-	console.log(coins);
-
 	const setFilterArrowDirection = (id: number) => {
 		const filter = Object.values(filterSelection).map((item) => {
 			if (item.id === id) {
@@ -67,10 +52,6 @@ export const CoinTable: React.FC = () => {
 		});
 		setFilterSelection(Object(filter));
 	};
-
-	useEffect(() => {
-		getCoinData();
-	}, []);
 
 	return (
 		<>
