@@ -3,20 +3,21 @@ import { useAppSelector } from '../redux/app/hooks';
 import { moneySuffix, setCurrency } from '../utils';
 
 interface ProgressBarProps {
+	className?: string;
 	values: {
 		first: number;
 		second: number;
 	};
 }
 
-const ProgressBar: React.FC<ProgressBarProps> = ({ values }) => {
+const ProgressBar: React.FC<ProgressBarProps> = ({ values, className }) => {
 	const isDark = useAppSelector((state) => state.theme.darkMode);
 	const currency = useAppSelector((state) => state.currency.value);
 	const percentageDifference = (values.first * 100) / values.second;
 	const widthPercentage = percentageDifference === Infinity ? 100 : percentageDifference;
 
 	return (
-		<div className="flex flex-col">
+		<div className={`flex flex-col ${className}`}>
 			<div className="flex justify-between">
 				<span className={isDark ? 'text-darkModeSliderOrange' : 'text-cryptoRed'}>
 					&#x25CF; {setCurrency(currency)} {moneySuffix(values.first)}

@@ -16,6 +16,7 @@ import { CoinGeckoApiProps } from '../constants';
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 interface SmallGraphProps {
+	className?: string;
 	graphData: CoinGeckoApiProps['sparkline_in_7d']['price'];
 }
 
@@ -50,7 +51,7 @@ const SmallGraph: React.FC<SmallGraphProps> = (props) => {
 	data.datasets[0].backgroundColor = secondLastItem - lastItem > 0 ? '#00ff00' : '#ff0000';
 
 	return (
-		<div className="h-20 w-28">
+		<div className={`h-16 w-28 ${props.className}`}>
 			<Line
 				data={data}
 				options={{
@@ -65,6 +66,7 @@ const SmallGraph: React.FC<SmallGraphProps> = (props) => {
 					},
 					scales: {
 						x: {
+							border: { display: false },
 							grid: {
 								display: false,
 							},
@@ -74,6 +76,7 @@ const SmallGraph: React.FC<SmallGraphProps> = (props) => {
 							},
 						},
 						y: {
+							border: { display: false },
 							grid: { display: false },
 							ticks: {
 								display: false,

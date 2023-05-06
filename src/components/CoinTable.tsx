@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
-import { useAppSelector } from '../redux/app/hooks';
 import axios from 'axios';
-import { CoinGeckoApiProps } from '../constants';
-import { roundToTwoDecimalPlaces, setCurrency } from '../utils';
 import { TickerSymbolDown, TickerSymbolUp } from './icons/TickerSymbol';
 import ProgressBar from './ProgressBar';
 import SmallGraph from './SmallGraph';
+import { CoinGeckoApiProps } from '../constants';
+import { useAppSelector } from '../redux/app/hooks';
+import { roundToTwoDecimalPlaces, setCurrency } from '../utils';
 
 export const CoinTable: React.FC = () => {
 	const currency = useAppSelector((state) => state.currency.value);
@@ -74,8 +74,8 @@ export const CoinTable: React.FC = () => {
 
 	return (
 		<>
-			<div className="overflow-x-auto rounded-md table-fixed w-full">
-				<table className="bg-darkNonIntComponentBg">
+			<div className="overflow-x-hidden mx-auto w-full text-xs whitespace-nowrap">
+				<table className="dark:bg-darkNonIntComponentBg bg-lightModeWhite rounded-lg">
 					<thead>
 						<tr>
 							{Object.values(filterSelection).map(({ title, id, prop, upArrow }) => (
@@ -102,23 +102,26 @@ export const CoinTable: React.FC = () => {
 					<tbody>
 						{coins &&
 							coins.map((coin) => (
-								<tr key={`td_${coin.name}`} className="py-2 px-4 border-b border-gray-300 w-max">
-									<td>
+								<tr key={`td_${coin.name}`}>
+									<td className="text-center">
 										<div>{coin.market_cap_rank}</div>
 									</td>
-									<td className="flex">
-										<img src={coin.image} alt={coin.name + ' logo'} className="mr-2 w-5 h-5" />
-										<span className="flex">
-											<p className="mr-1">{coin.name}</p>{' '}
-											<p>{`(${coin.symbol.toLocaleUpperCase()})`}</p>
-										</span>
-									</td>
 									<td>
+										<div className="flex">
+											<img src={coin.image} alt={coin.name + ' logo'} className="mr-2 w-5 h-5" />
+											<span className="flex">
+												<p className="mr-2">
+													{coin.name} {`(${coin.symbol.toLocaleUpperCase()})`}
+												</p>
+											</span>
+										</div>
+									</td>
+									<td className="text-center">
 										{setCurrency(currency)}
 										{coin.current_price}
 									</td>
 									<td>
-										<span className="flex items-center">
+										<span className="flex items-center justify-center">
 											{coin.price_change_percentage_1h_in_currency > 0 ? (
 												<TickerSymbolUp />
 											) : (
@@ -128,7 +131,7 @@ export const CoinTable: React.FC = () => {
 										</span>
 									</td>
 									<td>
-										<span className="flex items-center">
+										<span className="flex items-center justify-center">
 											{coin.price_change_percentage_24h_in_currency > 0 ? (
 												<TickerSymbolUp />
 											) : (
@@ -138,7 +141,7 @@ export const CoinTable: React.FC = () => {
 										</span>
 									</td>
 									<td>
-										<span className="flex items-center">
+										<span className="flex items-center justify-center">
 											{coin.price_change_percentage_7d_in_currency > 0 ? (
 												<TickerSymbolUp />
 											) : (
@@ -148,16 +151,21 @@ export const CoinTable: React.FC = () => {
 										</span>
 									</td>
 									<td>
-										<ProgressBar values={{ first: coin.total_volume, second: coin.market_cap }} />
+										<ProgressBar
+											values={{ first: coin.total_volume, second: coin.market_cap }}
+											className="mr-2"
+										/>
 									</td>
 									<td>
 										<ProgressBar
 											values={{ first: coin.circulating_supply, second: coin.total_supply }}
+											className="mr-2"
 										/>
 									</td>
 									<td>
-										<SmallGraph graphData={coin.sparkline_in_7d.price} />
+										<SmallGraph graphData={coin.sparkline_in_7d.price} className="mr-2" />
 									</td>
+									<div className="border-b border-gray-400 w-full"></div>
 								</tr>
 							))}
 					</tbody>
