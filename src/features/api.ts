@@ -35,6 +35,13 @@ interface CoinGeckoApiProps {
 	total_volume: number;
 }
 
+export type PropertyOfCoinGeckoApiProps =
+	| 'market_cap_rank'
+	| 'name'
+	| 'current_price'
+	| 'price_change_percentage_1h_in_currency'
+	| 'price_change_percentage_24h_in_currency'
+	| 'price_change_percentage_7d_in_currency';
 interface CategoryProps {
 	title: 'Cryptocurrency' | 'DeFi';
 	value: '' | 'decentralized-finance-defi';
@@ -61,6 +68,15 @@ const apiSlice = createSlice({
 		setCoins: (state, action) => {
 			state.coins = [...action.payload];
 		},
+		getFilteredCoins: (state, action) => {
+			state.coins = state.coins.sort((a, b) => {
+				const { prop, upArrow } = action.payload;
+				const first = a[prop as PropertyOfCoinGeckoApiProps];
+				const second = b[prop as PropertyOfCoinGeckoApiProps];
+				const value = upArrow ? first > second : second > first;
+				return value ? 1 : -1;
+			});
+		},
 		setItemsPerPage: (state) => {
 			state.itemsPerPage = state.itemsPerPage + 25;
 		},
@@ -75,7 +91,8 @@ const apiSlice = createSlice({
 	},
 });
 
-export const { setApiLoading, setCoins, setItemsPerPage, setActiveCategory } = apiSlice.actions;
+export const { setApiLoading, setCoins, setItemsPerPage, setActiveCategory, getFilteredCoins } =
+	apiSlice.actions;
 
 export const fetchCoinData = (): AppThunk => async (dispatch, getState) => {
 	const { category, itemsPerPage } = getState().api;

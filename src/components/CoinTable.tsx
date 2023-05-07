@@ -8,14 +8,28 @@ import { roundToTwoDecimalPlaces, setCurrency } from '../utils';
 import TailspinLoader from './icons/TailspinLoader/TailspinLoader';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import TableFilter from './TableFilter';
-import { fetchCoinData, scrollMoreCoins } from '../features/api';
+import {
+	fetchCoinData,
+	scrollMoreCoins,
+	getFilteredCoins,
+	PropertyOfCoinGeckoApiProps,
+} from '../features/api';
+
+interface CoinTableHeader {
+	[key: string]: {
+		id: number;
+		title: string;
+		prop: PropertyOfCoinGeckoApiProps;
+		upArrow: boolean;
+	};
+}
 
 export const CoinTable: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const currency = useAppSelector((state) => state.currency.value);
 	const { coins, apiLoading } = useAppSelector((state) => state.api);
 	const hasCoins = !apiLoading && coins;
-	const [filterSelection, setFilterSelection] = useState({
+	const [filterSelection, setFilterSelection] = useState<CoinTableHeader>({
 		marketCapRank: {
 			id: 1,
 			title: '#',
@@ -45,10 +59,10 @@ export const CoinTable: React.FC = () => {
 	});
 
 	//console.log(coins && coins[0].sparkline_in_7d);
-
-	const setFilterArrowDirection = (id: number) => {
+	const setFilterArrowDirection = (id: number, prop: PropertyOfCoinGeckoApiProps) => {
 		const filter = Object.values(filterSelection).map((item) => {
 			if (item.id === id) {
+				dispatch(getFilteredCoins({ prop, upArrow: item.upArrow }));
 				return { ...item, upArrow: !item.upArrow };
 			} else {
 				return { ...item, upArrow: false };
@@ -77,9 +91,9 @@ export const CoinTable: React.FC = () => {
 								<tr>
 									{Object.values(filterSelection).map(({ title, id, prop, upArrow }) => (
 										<th
-											className="py-2 px-4 w-max"
+											className="py-2 px-4 w-max cursor-pointer"
 											key={id}
-											onClick={() => setFilterArrowDirection(id)}
+											onClick={() => setFilterArrowDirection(id, prop)}
 										>
 											<span className="flex items-center">
 												<span className="mr-1">{title}</span>
@@ -180,11 +194,7 @@ export const CoinTable: React.FC = () => {
 						<TableFilter />
 						<tr>
 							{Object.values(filterSelection).map(({ title, id, prop, upArrow }) => (
-								<th
-									className="py-2 px-4 w-max"
-									key={id}
-									onClick={() => setFilterArrowDirection(id)}
-								>
+								<th className="py-2 px-4 w-max" key={id}>
 									<span className="flex items-center">
 										<span className="mr-1">{title}</span>
 										{upArrow ? (
