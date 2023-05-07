@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { AppThunk } from '../redux/app/store';
 
-export interface CoinGeckoApiProps {
+interface CoinGeckoApiProps {
 	ath: number;
 	ath_change_percentage: number;
 	ath_date: string;
@@ -35,11 +35,20 @@ export interface CoinGeckoApiProps {
 	total_volume: number;
 }
 
+interface CategoryProps {
+	title: 'Cryptocurrency' | 'DeFi';
+	value: '' | 'decentralized-finance-defi';
+	active: boolean;
+}
+
 const initialState = {
 	coins: [] as CoinGeckoApiProps[],
 	apiLoading: false,
 	itemsPerPage: 25,
-	category: '',
+	category: [
+		{ title: 'Cryptocurrency', value: '', active: true },
+		{ title: 'DeFi', value: 'decentralized-finance-defi', active: false },
+	] as CategoryProps[],
 };
 
 const apiSlice = createSlice({
@@ -52,24 +61,30 @@ const apiSlice = createSlice({
 		setCoins: (state, action) => {
 			state.coins = [...action.payload];
 		},
-		setActiveCategory: (state, action) => {
-			state.category = action.payload;
-		},
 		setItemsPerPage: (state) => {
 			state.itemsPerPage = state.itemsPerPage + 25;
+		},
+		setActiveCategory: (state, action) => {
+			const updatedCategories = state.category.map((c) => ({
+				...c,
+				active: c.value === action.payload,
+			}));
+
+			state.category = updatedCategories;
 		},
 	},
 });
 
-export const { setApiLoading, setCoins, setActiveCategory, setItemsPerPage } = apiSlice.actions;
+export const { setApiLoading, setCoins, setItemsPerPage, setActiveCategory } = apiSlice.actions;
 
 export const fetchCoinData = (): AppThunk => async (dispatch, getState) => {
 	const { category, itemsPerPage } = getState().api;
 	const { value: currency } = getState().currency;
 	try {
 		dispatch(setApiLoading(true));
-		const categoryType = category === '' ? '' : `&category=${category}`;
-		console.log(categoryType);
+		const categoryType = category.find((c) => c.active === true && c.value === '')
+			? ''
+			: `&category=${category}`;
 		const { data } = await axios(
 			`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}${categoryType}&order=market_cap_desc&per_page=${itemsPerPage}&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
 		);
@@ -81,9 +96,9 @@ export const fetchCoinData = (): AppThunk => async (dispatch, getState) => {
 };
 
 export const updateActiveCategory =
-	(button: string): AppThunk =>
+	(value: string): AppThunk =>
 	(dispatch) => {
-		dispatch(setActiveCategory(button));
+		dispatch(setActiveCategory(value));
 		dispatch(fetchCoinData());
 	};
 

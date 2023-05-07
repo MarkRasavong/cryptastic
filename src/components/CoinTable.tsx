@@ -177,6 +177,7 @@ export const CoinTable: React.FC = () => {
 					</InfiniteScroll>
 				) : (
 					<div className="w-full bg-lightModeWhite dark:bg-darkNonIntComponentBg rounded-lg flex flex-col">
+						<TableFilter />
 						<tr>
 							{Object.values(filterSelection).map(({ title, id, prop, upArrow }) => (
 								<th
