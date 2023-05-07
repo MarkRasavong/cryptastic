@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
 import { TickerSymbolDown, TickerSymbolUp } from './icons/TickerSymbol';
 import ProgressBar from './ProgressBar';
@@ -7,15 +7,18 @@ import { useAppSelector } from '../redux/app/hooks';
 import { roundToTwoDecimalPlaces, setCurrency } from '../utils';
 import { CoinGeckoApiProps } from '../constants';
 import TailspinLoader from './icons/TailspinLoader/TailspinLoader';
+import axios from 'axios';
 
 interface CoinTableProps {
-	coins: null | CoinGeckoApiProps[];
-	isLoading: boolean;
+	category?: string;
 }
 
-export const CoinTable: React.FC<CoinTableProps> = ({ coins, isLoading }) => {
+export const CoinTable: React.FC<CoinTableProps> = ({ category }) => {
 	const currency = useAppSelector((state) => state.currency.value);
-	const hasCoins = !isLoading && coins;
+	const [apiLoading, setApiLoading] = useState(false);
+	const [coins, setCoins] = useState<null | CoinGeckoApiProps[]>(null);
+	const hasCoins = !apiLoading && coins;
+	const [itemsPerPage, setItemsPerPage] = useState(25);
 	const [filterSelection, setFilterSelection] = useState({
 		marketCapRank: {
 			id: 1,
@@ -44,6 +47,25 @@ export const CoinTable: React.FC<CoinTableProps> = ({ coins, isLoading }) => {
 			upArrow: false,
 		},
 	});
+
+	const getCoinData = async () => {
+		try {
+			setApiLoading(true);
+			const { data } = await axios(
+				`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=${itemsPerPage}&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
+			);
+			setCoins(data);
+			setApiLoading(false);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	useEffect(() => {
+		getCoinData();
+	}, []);
+
+	console.log(coins && coins[0].sparkline_in_7d);
 
 	const setFilterArrowDirection = (id: number) => {
 		const filter = Object.values(filterSelection).map((item) => {
