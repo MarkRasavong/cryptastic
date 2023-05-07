@@ -39,10 +39,11 @@ export const fetchCoinsAfterCurrencyChange = createAsyncThunk(
 		const { category, itemsPerPage } = (getState() as RootState).api;
 
 		try {
-			dispatch(setCurrency(currency));
 			dispatch(setApiLoading(true));
+			const categoryType =
+				category.find((c) => c.active === true)!.value === '' ? '' : `&category=${category}`;
 			const { data } = await axios(
-				`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}${category}&order=market_cap_desc&per_page=${itemsPerPage}&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
+				`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}${categoryType}&order=market_cap_desc&per_page=${itemsPerPage}&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
 			);
 			dispatch(setCoins(data));
 			dispatch(setApiLoading(false));

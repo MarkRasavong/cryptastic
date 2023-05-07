@@ -82,9 +82,8 @@ export const fetchCoinData = (): AppThunk => async (dispatch, getState) => {
 	const { value: currency } = getState().currency;
 	try {
 		dispatch(setApiLoading(true));
-		const categoryType = category.find((c) => c.active === true && c.value === '')
-			? ''
-			: `&category=${category}`;
+		const categoryType =
+			category.find((c) => c.active === true)!.value === '' ? '' : `&category=${category}`;
 		const { data } = await axios(
 			`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}${categoryType}&order=market_cap_desc&per_page=${itemsPerPage}&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
 		);
