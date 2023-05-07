@@ -3,22 +3,18 @@ import { FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
 import { TickerSymbolDown, TickerSymbolUp } from './icons/TickerSymbol';
 import ProgressBar from './ProgressBar';
 import SmallGraph from './SmallGraph';
-import { useAppSelector } from '../redux/app/hooks';
+import { useAppDispatch, useAppSelector } from '../redux/app/hooks';
 import { roundToTwoDecimalPlaces, setCurrency } from '../utils';
-import { CoinGeckoApiProps } from '../constants';
 import TailspinLoader from './icons/TailspinLoader/TailspinLoader';
-import axios from 'axios';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import TableFilter from './TableFilter';
+import { fetchCoinData, scrollMoreCoins } from '../features/api';
 
-interface CoinTableProps {
-	category?: string;
-}
-
-export const CoinTable: React.FC<CoinTableProps> = ({ category }) => {
+export const CoinTable: React.FC = () => {
+	const dispatch = useAppDispatch();
 	const currency = useAppSelector((state) => state.currency.value);
-	const [apiLoading, setApiLoading] = useState(false);
-	const [coins, setCoins] = useState<null | CoinGeckoApiProps[]>(null);
+	const { coins, apiLoading } = useAppSelector((state) => state.api);
 	const hasCoins = !apiLoading && coins;
-	const [itemsPerPage, setItemsPerPage] = useState(25);
 	const [filterSelection, setFilterSelection] = useState({
 		marketCapRank: {
 			id: 1,
@@ -48,24 +44,7 @@ export const CoinTable: React.FC<CoinTableProps> = ({ category }) => {
 		},
 	});
 
-	const getCoinData = async () => {
-		try {
-			setApiLoading(true);
-			const { data } = await axios(
-				`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=${itemsPerPage}&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
-			);
-			setCoins(data);
-			setApiLoading(false);
-		} catch (error) {
-			console.log(error);
-		}
-	};
-
-	useEffect(() => {
-		getCoinData();
-	}, []);
-
-	console.log(coins && coins[0].sparkline_in_7d);
+	//console.log(coins && coins[0].sparkline_in_7d);
 
 	const setFilterArrowDirection = (id: number) => {
 		const filter = Object.values(filterSelection).map((item) => {
@@ -78,108 +57,124 @@ export const CoinTable: React.FC<CoinTableProps> = ({ category }) => {
 		setFilterSelection(Object(filter));
 	};
 
+	useEffect(() => {
+		dispatch(fetchCoinData());
+	}, []);
+
 	return (
 		<>
-			<div className="mx-auto w-full text-xs whitespace-nowrap no-scrollbar">
+			<div className="mx-auto w-full text-xs whitespace-nowrap no-scrollbar dark:bg-darkNonIntComponentBg bg-lightModeWhite rounded-lg">
 				{hasCoins ? (
-					<table className="w-full dark:bg-darkNonIntComponentBg bg-lightModeWhite rounded-lg">
-						<thead>
-							<tr>
-								{Object.values(filterSelection).map(({ title, id, prop, upArrow }) => (
-									<th
-										className="py-2 px-4 w-max"
-										key={id}
-										onClick={() => setFilterArrowDirection(id)}
-									>
-										<span className="flex items-center">
-											<span className="mr-1">{title}</span>
-											{upArrow ? (
-												<FaSortAmountUp size={'0.8rem'} />
-											) : (
-												<FaSortAmountDown size={'0.8rem'} />
-											)}
-										</span>
-									</th>
-								))}
-								<th className="py-2 px-4 w-max">24h Volume/Market Cap</th>
-								<th className="py-2 px-4 w-max">Circulating/Total Supply</th>
-								<th className="py-2 px-4 w-max">Last 7d</th>
-							</tr>
-						</thead>
-						<tbody>
-							{hasCoins &&
-								coins.map((coin) => (
-									<tr
-										key={`td_${coin.name}`}
-										className="border-b dark:border-darkIntComponentBg border-x-lightModeBgFooterMobile"
-									>
-										<td className="text-center">
-											<div>{coin.market_cap_rank}</div>
-										</td>
-										<td>
-											<div className="flex">
-												<img src={coin.image} alt={coin.name + ' logo'} className="mr-2 w-5 h-5" />
-												<span className="flex">
-													<p className="mr-2">
-														{coin.name} {`(${coin.symbol.toLocaleUpperCase()})`}
-													</p>
+					<InfiniteScroll
+						dataLength={coins && coins.length}
+						hasMore={true}
+						loader={<h4>Loading...</h4>}
+						next={() => dispatch(scrollMoreCoins())}
+					>
+						<TableFilter />
+						<table className="w-full border-t dark:border-darkIntComponentBg border-x-lightModeBgFooterMobile">
+							<thead>
+								<tr>
+									{Object.values(filterSelection).map(({ title, id, prop, upArrow }) => (
+										<th
+											className="py-2 px-4 w-max"
+											key={id}
+											onClick={() => setFilterArrowDirection(id)}
+										>
+											<span className="flex items-center">
+												<span className="mr-1">{title}</span>
+												{upArrow ? (
+													<FaSortAmountUp size={'0.8rem'} />
+												) : (
+													<FaSortAmountDown size={'0.8rem'} />
+												)}
+											</span>
+										</th>
+									))}
+									<th className="py-2 px-4 w-max">24h Volume/Market Cap</th>
+									<th className="py-2 px-4 w-max">Circulating/Total Supply</th>
+									<th className="py-2 px-4 w-max">Last 7d</th>
+								</tr>
+							</thead>
+							<tbody>
+								{hasCoins &&
+									coins.map((coin) => (
+										<tr
+											key={`td_${coin.name}`}
+											className="border-b dark:border-darkIntComponentBg border-x-lightModeBgFooterMobile"
+										>
+											<td className="text-center">
+												<div>{coin.market_cap_rank}</div>
+											</td>
+											<td>
+												<div className="flex">
+													<img
+														src={coin.image}
+														alt={coin.name + ' logo'}
+														className="mr-2 w-5 h-5"
+													/>
+													<span className="flex">
+														<p className="mr-2">
+															{coin.name} {`(${coin.symbol.toLocaleUpperCase()})`}
+														</p>
+													</span>
+												</div>
+											</td>
+											<td className="text-center">
+												{setCurrency(currency)}
+												{coin.current_price}
+											</td>
+											<td>
+												<span className="flex items-center justify-center">
+													{coin.price_change_percentage_1h_in_currency > 0 ? (
+														<TickerSymbolUp />
+													) : (
+														<TickerSymbolDown />
+													)}
+													{roundToTwoDecimalPlaces(coin.price_change_percentage_1h_in_currency)}
 												</span>
-											</div>
-										</td>
-										<td className="text-center">
-											{setCurrency(currency)}
-											{coin.current_price}
-										</td>
-										<td>
-											<span className="flex items-center justify-center">
-												{coin.price_change_percentage_1h_in_currency > 0 ? (
-													<TickerSymbolUp />
-												) : (
-													<TickerSymbolDown />
-												)}
-												{roundToTwoDecimalPlaces(coin.price_change_percentage_1h_in_currency)}
-											</span>
-										</td>
-										<td>
-											<span className="flex items-center justify-center">
-												{coin.price_change_percentage_24h_in_currency > 0 ? (
-													<TickerSymbolUp />
-												) : (
-													<TickerSymbolDown />
-												)}
-												{roundToTwoDecimalPlaces(coin.price_change_percentage_24h_in_currency)}
-											</span>
-										</td>
-										<td>
-											<span className="flex items-center justify-center">
-												{coin.price_change_percentage_7d_in_currency > 0 ? (
-													<TickerSymbolUp />
-												) : (
-													<TickerSymbolDown />
-												)}
-												{roundToTwoDecimalPlaces(coin.price_change_percentage_7d_in_currency)}
-											</span>
-										</td>
-										<td>
-											<ProgressBar
-												values={{ first: coin.total_volume, second: coin.market_cap }}
-												className="mr-2"
-											/>
-										</td>
-										<td>
-											<ProgressBar
-												values={{ first: coin.circulating_supply, second: coin.total_supply }}
-												className="mr-2"
-											/>
-										</td>
-										<td>
-											<SmallGraph graphData={coin.sparkline_in_7d.price} className="mr-2" />
-										</td>
-										<div className="border-b border-gray-400 w-full"></div>
-									</tr>
-								))}
-						</tbody>
-					</table>
+											</td>
+											<td>
+												<span className="flex items-center justify-center">
+													{coin.price_change_percentage_24h_in_currency > 0 ? (
+														<TickerSymbolUp />
+													) : (
+														<TickerSymbolDown />
+													)}
+													{roundToTwoDecimalPlaces(coin.price_change_percentage_24h_in_currency)}
+												</span>
+											</td>
+											<td>
+												<span className="flex items-center justify-center">
+													{coin.price_change_percentage_7d_in_currency > 0 ? (
+														<TickerSymbolUp />
+													) : (
+														<TickerSymbolDown />
+													)}
+													{roundToTwoDecimalPlaces(coin.price_change_percentage_7d_in_currency)}
+												</span>
+											</td>
+											<td>
+												<ProgressBar
+													values={{ first: coin.total_volume, second: coin.market_cap }}
+													className="mr-2"
+												/>
+											</td>
+											<td>
+												<ProgressBar
+													values={{ first: coin.circulating_supply, second: coin.total_supply }}
+													className="mr-2"
+												/>
+											</td>
+											<td>
+												<SmallGraph graphData={coin.sparkline_in_7d.price} className="mr-2" />
+											</td>
+											<div className="border-b dark:border-darkIntComponentBg border-x-lightModeBgFooterMobile w-full"></div>
+										</tr>
+									))}
+							</tbody>
+						</table>
+					</InfiniteScroll>
 				) : (
 					<div className="w-full bg-lightModeWhite dark:bg-darkNonIntComponentBg rounded-lg flex flex-col">
 						<tr>
