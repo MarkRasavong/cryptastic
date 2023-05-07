@@ -102,7 +102,7 @@ export const updateActiveCategory =
 		dispatch(fetchCoinData());
 	};
 
-export const scrollMoreCoins = (): AppThunk => (dispatch, getState) => {
+export const scrollMoreCoins = (): AppThunk => (dispatch) => {
 	dispatch(setItemsPerPage());
 	dispatch(fetchCoinData());
 };

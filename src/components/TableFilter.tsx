@@ -12,8 +12,8 @@ const TableFilter: React.FC = () => {
 			{category.map((button) => (
 				<button
 					key={`${button.title}_filterByBtn`}
-					className={`px-2 py-0.5 rounded-md text-white mr-2 ${
-						button.active ? 'bg-cryptoGreen' : 'bg-darkIntComponentBg'
+					className={`px-2 py-0.5 rounded-md dark:text-darkModeText text-lightModeText mr-2 ${
+						button.active ? 'bg-cryptoGreen' : 'dark:bg-darkIntComponentBg bg-lightModeBgGray'
 					}`}
 					onClick={() => dispatch(updateActiveCategory(button.value))}
 				>

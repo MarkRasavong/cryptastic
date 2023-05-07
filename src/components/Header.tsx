@@ -4,7 +4,7 @@ import ThemeToggleIcon from './icons/ThemeToggleIcon';
 import SearchIcon from './icons/SearchIcon';
 import { useAppDispatch, useAppSelector } from '../redux/app/hooks';
 import { toggleDarkMode } from '../features/theme';
-import { setCurrency } from '../features/currency';
+import { fetchCoinsAfterCurrencyChange } from '../features/currency';
 
 const Header = () => {
 	const dispatch = useAppDispatch();
@@ -17,7 +17,7 @@ const Header = () => {
 	};
 
 	const currencyOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		dispatch(setCurrency(e.target.value));
+		dispatch(fetchCoinsAfterCurrencyChange(e.target.value));
 	};
 
 	const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
