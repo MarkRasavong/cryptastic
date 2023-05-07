@@ -31,7 +31,7 @@ const OverviewPage = () => {
 	return (
 		<section className="max-w-screen-lg mx-auto">
 			<h2>Crypto Overview</h2>
-			<CoinTable coins={coins} />
+			<CoinTable coins={coins} isLoading={apiLoading} />
 		</section>
 	);
 };
