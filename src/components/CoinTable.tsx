@@ -229,31 +229,3 @@ export const CoinTable: React.FC = () => {
 		</>
 	);
 };
-
-/*
-(
-					<div className="w-full bg-lightModeWhite dark:bg-darkNonIntComponentBg rounded-lg flex flex-col">
-						<TableFilter />
-						<tr>
-							{Object.values(filterSelection).map(({ title, id, prop, upArrow }) => (
-								<th className="py-2 px-4 w-max" key={id}>
-									<span className="flex items-center">
-										<span className="mr-1">{title}</span>
-										{upArrow ? (
-											<FaSortAmountUp size={'0.8rem'} />
-										) : (
-											<FaSortAmountDown size={'0.8rem'} />
-										)}
-									</span>
-								</th>
-							))}
-							<th className="py-2 px-4 w-max">24h Volume/Market Cap</th>
-							<th className="py-2 px-4 w-max">Circulating/Total Supply</th>
-							<th className="py-2 px-4 w-max">Last 7d</th>
-						</tr>
-						<div className="w-full flex justify-center py-12">
-							<TailspinLoader />
-						</div>
-					</div>
-				)
-*/
