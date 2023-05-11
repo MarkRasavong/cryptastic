@@ -3,7 +3,7 @@ import CryptoDropdown from './CryptoDropdown';
 
 const CoinGraphs = () => {
 	return (
-		<div>
+		<div className="flex gap-4 ">
 			<CryptoDropdown />
 		</div>
 	);
