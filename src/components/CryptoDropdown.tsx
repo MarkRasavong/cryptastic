@@ -22,8 +22,8 @@ const CryptoDropdown = () => {
 				onChange={(e) => dispatch(setMarketData(e.target.value))}
 				aria-label="Crypto Select"
 			>
-				<option value="Bitcoin">Bitcoin</option>
-				<option value="Ethereum">Ethereum</option>
+				<option value="bitcoin">Bitcoin</option>
+				<option value="ethereum">Ethereum</option>
 			</select>
 		</div>
 	);

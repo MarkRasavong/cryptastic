@@ -1,14 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { AppThunk } from '../redux/app/store';
+import axios from 'axios';
 
-interface CategoryProps {
-	title: 'Cryptocurrency' | 'DeFi';
-	value: '' | 'decentralized-finance-defi';
-	active: boolean;
+interface CryptoData {
+	prices: [number, number][];
+	market_caps: [number, number][];
+	total_volumes: [number, number][];
+}
+
+interface FormatDataInterface {
+	labels: string[];
+	prices: number[];
 }
 
 const initialState = {
-	userSelection: 'Bitcoin',
+	userSelection: 'bitcoin',
+	loading: false,
+	labels: [] as string[],
+	prices: [] as number[],
 };
 
 const homeMarketGraphs = createSlice({
@@ -18,29 +27,43 @@ const homeMarketGraphs = createSlice({
 		setMarketData: (state, action) => {
 			state.userSelection = action.payload;
 		},
+		setApiLoading: (state, action) => {
+			state.loading = action.payload;
+		},
+		setLabels: (state, action) => {
+			state.labels = action.payload;
+		},
+		setPrices: (state, action) => {
+			state.prices = action.payload;
+		},
 	},
 });
 
-export const { setMarketData } = homeMarketGraphs.actions;
+export const { setMarketData, setApiLoading, setLabels, setPrices } = homeMarketGraphs.actions;
 
-export const fetchCoinData = (): AppThunk => async (dispatch, getState) => {
-	const { category, itemsPerPage } = getState().api;
+export const fetchLineGraphData = (): AppThunk => async (dispatch, getState) => {
 	const { value: currency } = getState().currency;
+	const { userSelection } = getState().homeMarketGraphs;
+
 	try {
-		{
-			/*
-    dispatch(setApiLoading(true));
+		dispatch(setApiLoading(true));
 
-    API CALL
+		const data = (await axios(
+			`https://api.coingecko.com/api/v3/coins/${userSelection}/market_chart?vs_currency=${currency}&days=7`
+		)) as CryptoData;
 
-    */
-		}
-		{
-			/*
-    dispatch(setData(data)); // from API call
-    dispatch(setApiLoading(false));
-  */
-		}
+		const formatData: FormatDataInterface = data.prices.reduce(
+			(acc, [label, price]) => ({
+				labels: [...acc.labels, new Date(label).toLocaleDateString()],
+				prices: [...acc.prices, price],
+			}),
+			{ labels: [], prices: [] } as FormatDataInterface
+		);
+
+		setLabels(formatData.labels);
+		setPrices(formatData.prices);
+
+		setApiLoading(false);
 	} catch (error) {
 		console.log(error);
 	}
