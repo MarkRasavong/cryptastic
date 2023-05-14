@@ -8,9 +8,14 @@ interface CryptoData {
 	total_volumes: [number, number][];
 }
 
-interface FormatDataInterface {
+interface FormatLineGraphInterface {
 	labels: string[];
 	prices: number[];
+}
+
+interface FormatBarGraphInterface {
+	volumeLabels: string[];
+	volumePrices: number[];
 }
 
 const initialState = {
@@ -18,6 +23,8 @@ const initialState = {
 	loading: false,
 	labels: [] as string[],
 	prices: [] as number[],
+	volumeLabels: [] as string[],
+	volumePrices: [] as number[],
 };
 
 const homeMarketGraphs = createSlice({
@@ -36,36 +43,65 @@ const homeMarketGraphs = createSlice({
 		setPrices: (state, action) => {
 			state.prices = action.payload;
 		},
+		setVolumeLabels: (state, action) => {
+			state.volumeLabels = action.payload;
+		},
+		setVolumePrices: (state, action) => {
+			state.volumePrices = action.payload;
+		},
 	},
 });
 
-export const { setMarketData, setApiLoading, setLabels, setPrices } = homeMarketGraphs.actions;
+export const {
+	setMarketData,
+	setApiLoading,
+	setLabels,
+	setPrices,
+	setVolumeLabels,
+	setVolumePrices,
+} = homeMarketGraphs.actions;
 
-export const fetchLineGraphData = (): AppThunk => async (dispatch, getState) => {
-	const { value: currency } = getState().currency;
-	const { userSelection } = getState().homeMarketGraphs;
+export const fetchLineGraphData =
+	(type: 'bar' | 'line'): AppThunk =>
+	async (dispatch, getState) => {
+		const { value: currency } = getState().currency;
+		const { userSelection } = getState().homeMarketGraphs;
 
-	try {
-		dispatch(setApiLoading(true));
+		try {
+			dispatch(setApiLoading(true));
+			console.log(type);
 
-		const data = (await axios(
-			`https://api.coingecko.com/api/v3/coins/${userSelection}/market_chart?vs_currency=${currency}&days=7`
-		)) as CryptoData;
+			const data = (await axios(
+				`https://api.coingecko.com/api/v3/coins/${userSelection}/market_chart?vs_currency=${currency}&days=7`
+			)) as CryptoData;
 
-		const formatData: FormatDataInterface = data.prices.reduce(
-			(acc, [label, price]) => ({
-				labels: [...acc.labels, new Date(label).toLocaleDateString()],
-				prices: [...acc.prices, price],
-			}),
-			{ labels: [], prices: [] } as FormatDataInterface
-		);
+			if (type === 'line') {
+				const formatData: FormatLineGraphInterface = data.prices.reduce(
+					(acc, [label, price]) => ({
+						labels: [...acc.labels, new Date(label).toLocaleDateString()],
+						prices: [...acc.prices, price],
+					}),
+					{ labels: [], prices: [] } as FormatLineGraphInterface
+				);
 
-		setLabels(formatData.labels);
-		setPrices(formatData.prices);
+				setLabels(formatData.labels);
+				setPrices(formatData.prices);
+			} else {
+				const formatData: FormatBarGraphInterface = data.total_volumes.reduce(
+					(acc, [label, price]) => ({
+						volumeLabels: [...acc.volumeLabels, new Date(label).toLocaleDateString()],
+						volumePrices: [...acc.volumePrices, price],
+					}),
+					{ volumeLabels: [], volumePrices: [] } as FormatBarGraphInterface
+				);
+				setVolumeLabels(formatData.volumeLabels);
+				setVolumePrices(formatData.volumePrices);
+			}
 
-		setApiLoading(false);
-	} catch (error) {
-		console.log(error);
-	}
-};
+			setApiLoading(false);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 export default homeMarketGraphs.reducer;
