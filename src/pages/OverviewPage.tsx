@@ -7,7 +7,7 @@ import { fetchLineGraphData } from '../features/homeMarketGraphs';
 const OverviewPage = () => {
 	const dispatch = useAppDispatch();
 
-	dispatch(fetchLineGraphData('line'));
+	dispatch(fetchLineGraphData('bar'));
 
 	return (
 		<section className="max-w-screen-lg mx-auto">
