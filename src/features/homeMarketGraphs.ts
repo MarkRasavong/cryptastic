@@ -69,7 +69,6 @@ export const fetchLineGraphData =
 
 		try {
 			dispatch(setApiLoading(true));
-			console.log(type);
 
 			const data = (await axios(
 				`https://api.coingecko.com/api/v3/coins/${userSelection}/market_chart?vs_currency=${currency}&days=7`
@@ -86,7 +85,8 @@ export const fetchLineGraphData =
 
 				setLabels(formatData.labels);
 				setPrices(formatData.prices);
-			} else {
+			}
+			if (type === 'bar') {
 				const formatData: FormatBarGraphInterface = data.total_volumes.reduce(
 					(acc, [label, price]) => ({
 						volumeLabels: [...acc.volumeLabels, new Date(label).toLocaleDateString()],
@@ -97,7 +97,6 @@ export const fetchLineGraphData =
 				setVolumeLabels(formatData.volumeLabels);
 				setVolumePrices(formatData.volumePrices);
 			}
-
 			setApiLoading(false);
 		} catch (error) {
 			console.log(error);
