@@ -9,8 +9,8 @@ const CryptoDropdown = () => {
 
 	return (
 		<div className="relative inline-block border-none">
-			<div className="bg-inherit rounded-md py-2 pl-3 pr-10 text-sm font-medium border-none flex items-center">
-				{userSelection} Overview{' '}
+			<div className="bg-inherit rounded-md py-2 pr-10 text-sm font-medium border-none flex items-center">
+				{userSelection[0].toUpperCase() + userSelection.slice(1)} Overview{' '}
 				<span className="ml-1">
 					<FaAngleDown />
 				</span>
