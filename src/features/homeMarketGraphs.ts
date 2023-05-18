@@ -2,6 +2,14 @@ import { createSlice } from '@reduxjs/toolkit';
 import { AppThunk } from '../redux/app/store';
 import axios from 'axios';
 
+interface CryptoIdData {
+	current_price: {
+		eur: number;
+		usd: number;
+		gbp: number;
+	};
+	last_updated: string;
+}
 interface CryptoData {
 	prices: [number, number][];
 	market_caps: [number, number][];
@@ -25,6 +33,8 @@ const initialState = {
 	prices: [] as number[],
 	volumeLabels: [] as string[],
 	volumePrices: [] as number[],
+	currentPrice: 0,
+	lastUpdated: '',
 };
 
 const homeMarketGraphs = createSlice({
@@ -49,6 +59,12 @@ const homeMarketGraphs = createSlice({
 		setVolumePrices: (state, action) => {
 			state.volumePrices = action.payload;
 		},
+		setCoinCurrentPrice: (state, action) => {
+			state.currentPrice = action.payload;
+		},
+		setCoinLastUpdated: (state, action) => {
+			state.lastUpdated = action.payload;
+		},
 	},
 });
 
@@ -59,6 +75,8 @@ export const {
 	setPrices,
 	setVolumeLabels,
 	setVolumePrices,
+	setCoinCurrentPrice,
+	setCoinLastUpdated,
 } = homeMarketGraphs.actions;
 
 export const fetchLineGraphData =
@@ -104,5 +122,20 @@ export const fetchLineGraphData =
 			console.log(error);
 		}
 	};
+
+export const fetchCoinById = (): AppThunk => async (dispatch, getState) => {
+	const { value: currency } = getState().currency;
+	const { userSelection } = getState().homeMarketGraphs;
+
+	try {
+		const data = (await axios(`https://api.coingecko.com/api/v3/coins/${userSelection}/`)).data
+			.market_data as CryptoIdData;
+
+		dispatch(setCoinCurrentPrice(data.current_price[currency]));
+		dispatch(setCoinLastUpdated(data.last_updated));
+	} catch (error) {
+		console.log(error);
+	}
+};
 
 export default homeMarketGraphs.reducer;

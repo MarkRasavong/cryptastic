@@ -27,3 +27,12 @@ export const moneySuffix = (num: number) => {
 	}
 	return num;
 };
+
+export const timeConverter = (t: string): string => {
+	const date = new Date(t);
+	const year = date.getFullYear();
+	const month = date.toLocaleString('en-us', { month: 'short' });
+	const day = date.getDate();
+
+	return `${month} ${day}, ${year}`;
+};
