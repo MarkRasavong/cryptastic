@@ -35,6 +35,14 @@ const initialState = {
 	volumePrices: [] as number[],
 	currentPrice: 0,
 	lastUpdated: '',
+	selectedDate: [
+		{ title: '1d', range: 1, active: true },
+		{ title: '1w', range: 7, active: false },
+		{ title: '1m', range: 30, active: false },
+		{ title: '3m', range: 90, active: false },
+		{ title: '6m', range: 180, active: false },
+		{ title: '1y', range: 365, active: false },
+	],
 };
 
 const homeMarketGraphs = createSlice({
@@ -65,6 +73,15 @@ const homeMarketGraphs = createSlice({
 		setCoinLastUpdated: (state, action) => {
 			state.lastUpdated = action.payload;
 		},
+		setActiveSelectedDate: (state, action) => {
+			state.selectedDate = state.selectedDate.map((date) => {
+				if (date.title === action.payload) {
+					return { ...date, active: true };
+				} else {
+					return { ...date, active: false };
+				}
+			});
+		},
 	},
 });
 
@@ -77,6 +94,7 @@ export const {
 	setVolumePrices,
 	setCoinCurrentPrice,
 	setCoinLastUpdated,
+	setActiveSelectedDate,
 } = homeMarketGraphs.actions;
 
 export const fetchLineGraphData =

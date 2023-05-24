@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../redux/app/hooks';
+import { setActiveSelectedDate } from '../features/homeMarketGraphs';
 
 const DateButtons = () => {
-	const dateRanges = [
-		{ title: '1d', range: 1 },
-		{ title: '1w', range: 7 },
-		{ title: '1m', range: 30 },
-		{ title: '3m', range: 90 },
-		{ title: '6m', range: 180 },
-		{ title: '1y', range: 365 },
-	];
+	const dispatch = useAppDispatch();
+	const { selectedDate } = useAppSelector((state) => state.homeMarketGraphs);
 
 	return (
 		<>
-			{dateRanges.map((dateRanges) => (
-				<button key={`dateBtn_${dateRanges.range}`}>
-					<p>{dateRanges.title}</p>
+			{selectedDate.map((dateRanges) => (
+				<button
+					key={`dateBtn_${dateRanges.range}`}
+					className={`${dateRanges.active && 'bg-sliderGreen px-2 h-full rounded-sm'}`}
+					onClick={() => dispatch(setActiveSelectedDate(dateRanges.title))}
+				>
+					<p className="text-xs">{dateRanges.title}</p>
 				</button>
 			))}
 		</>

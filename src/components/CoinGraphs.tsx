@@ -11,7 +11,7 @@ const CoinGraphs = () => {
 				<div className="flex flex-col items-center relative rounded-lg dark:bg-darkNonIntComponentBg bg-lightModeWhite w-[48%] h-80">
 					<div className="flex justify-between items-start w-full p-4">
 						<CoinGraphTitle />
-						<div className="flex justify-between items-center w-80 h-10 rounded-lg ">
+						<div className="flex justify-between items-center w-80 h-7 rounded-lg dark:bg-darkIntComponentBg px-4">
 							<DateButtons />
 						</div>
 					</div>
