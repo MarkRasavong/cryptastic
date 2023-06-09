@@ -108,14 +108,20 @@ export const fetchLineGraphData =
 
 			const data = (
 				await axios(
-					`https://api.coingecko.com/api/v3/coins/${userSelection}/market_chart?vs_currency=${currency}&days=7`
+					`https://api.coingecko.com/api/v3/coins/${userSelection}/market_chart?vs_currency=${currency}&days=1`
 				)
 			).data as CryptoData;
 
 			if (type === 'line') {
 				const formatData: FormatLineGraphInterface = data.prices.reduce(
 					(acc, [label, price]) => ({
-						labels: [...acc.labels, new Date(label).toLocaleDateString()],
+						labels: [
+							...acc.labels,
+							new Date(label).toLocaleDateString('en-us', {
+								month: 'short',
+								day: 'numeric',
+							}),
+						],
 						prices: [...acc.prices, price],
 					}),
 					{ labels: [], prices: [] } as FormatLineGraphInterface
@@ -127,7 +133,13 @@ export const fetchLineGraphData =
 			if (type === 'bar') {
 				const formatData: FormatBarGraphInterface = data.total_volumes.reduce(
 					(acc, [label, price]) => ({
-						volumeLabels: [...acc.volumeLabels, new Date(label).toLocaleDateString()],
+						volumeLabels: [
+							...acc.volumeLabels,
+							new Date(label).toLocaleDateString('en-us', {
+								month: 'short',
+								day: 'numeric',
+							}),
+						],
 						volumePrices: [...acc.volumePrices, price],
 					}),
 					{ volumeLabels: [], volumePrices: [] } as FormatBarGraphInterface
