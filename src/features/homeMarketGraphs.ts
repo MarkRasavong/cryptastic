@@ -21,18 +21,12 @@ interface FormatLineGraphInterface {
 	prices: number[];
 }
 
-interface FormatBarGraphInterface {
-	volumeLabels: string[];
-	volumePrices: number[];
-}
-
 const initialState = {
 	userSelection: 'bitcoin',
 	loading: false,
 	labels: [] as string[],
 	prices: [] as number[],
-	volumeLabels: [] as string[],
-	volumePrices: [] as number[],
+	volume: [] as number[],
 	currentPrice: 0,
 	lastUpdated: '',
 	selectedDate: [
@@ -61,11 +55,8 @@ const homeMarketGraphs = createSlice({
 		setPrices: (state, action) => {
 			state.prices = action.payload;
 		},
-		setVolumeLabels: (state, action) => {
-			state.volumeLabels = action.payload;
-		},
-		setVolumePrices: (state, action) => {
-			state.volumePrices = action.payload;
+		setVolume: (state, action) => {
+			state.volume = action.payload;
 		},
 		setCoinCurrentPrice: (state, action) => {
 			state.currentPrice = action.payload;
@@ -90,68 +81,57 @@ export const {
 	setApiLoading,
 	setLabels,
 	setPrices,
-	setVolumeLabels,
-	setVolumePrices,
+	setVolume,
 	setCoinCurrentPrice,
 	setCoinLastUpdated,
 	setActiveSelectedDate,
 } = homeMarketGraphs.actions;
 
-export const fetchLineGraphData =
-	(type: 'bar' | 'line'): AppThunk =>
-	async (dispatch, getState) => {
-		const { value: currency } = getState().currency;
-		const { userSelection } = getState().homeMarketGraphs;
+export const fetchLineGraphData = (): AppThunk => async (dispatch, getState) => {
+	const { value: currency } = getState().currency;
+	const { userSelection } = getState().homeMarketGraphs;
 
-		try {
-			dispatch(setApiLoading(true));
+	try {
+		dispatch(setApiLoading(true));
 
-			const data = (
-				await axios(
-					`https://api.coingecko.com/api/v3/coins/${userSelection}/market_chart?vs_currency=${currency}&days=1`
-				)
-			).data as CryptoData;
+		const data = (
+			await axios(
+				`https://api.coingecko.com/api/v3/coins/${userSelection}/market_chart?vs_currency=${currency}&days=1`
+			)
+		).data as CryptoData;
 
-			if (type === 'line') {
-				const formatData: FormatLineGraphInterface = data.prices.reduce(
-					(acc, [label, price]) => ({
-						labels: [
-							...acc.labels,
-							new Date(label).toLocaleDateString('en-us', {
-								month: 'short',
-								day: 'numeric',
-							}),
-						],
-						prices: [...acc.prices, price],
+		const { prices, total_volumes } = data;
+
+		console.log(prices);
+
+		const formatData: FormatLineGraphInterface = prices.reduce(
+			(acc, [label, price]) => ({
+				labels: [
+					...acc.labels,
+					new Date(label).toLocaleDateString('en-us', {
+						month: 'short',
+						day: 'numeric',
 					}),
-					{ labels: [], prices: [] } as FormatLineGraphInterface
-				);
+				],
+				prices: [...acc.prices, price],
+			}),
+			{ labels: [], prices: [] } as FormatLineGraphInterface
+		);
 
-				dispatch(setLabels(formatData.labels));
-				dispatch(setPrices(formatData.prices));
-			}
-			if (type === 'bar') {
-				const formatData: FormatBarGraphInterface = data.total_volumes.reduce(
-					(acc, [label, price]) => ({
-						volumeLabels: [
-							...acc.volumeLabels,
-							new Date(label).toLocaleDateString('en-us', {
-								month: 'short',
-								day: 'numeric',
-							}),
-						],
-						volumePrices: [...acc.volumePrices, price],
-					}),
-					{ volumeLabels: [], volumePrices: [] } as FormatBarGraphInterface
-				);
-				dispatch(setVolumeLabels(formatData.volumeLabels));
-				dispatch(setVolumePrices(formatData.volumePrices));
-			}
-			setApiLoading(false);
-		} catch (error) {
-			console.log(error);
-		}
-	};
+		const formatVolume = total_volumes.reduce(
+			(acc, [date, volValue]) => [...acc, volValue],
+			[] as number[]
+		);
+
+		dispatch(setLabels(formatData.labels));
+		dispatch(setPrices(formatData.prices));
+		dispatch(setVolume(formatVolume));
+
+		setApiLoading(false);
+	} catch (error) {
+		console.log(error);
+	}
+};
 
 export const fetchCoinById = (): AppThunk => async (dispatch, getState) => {
 	const { value: currency } = getState().currency;

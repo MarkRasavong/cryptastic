@@ -2,7 +2,7 @@ import React from 'react';
 import CryptoDropdown from './CryptoDropdown';
 import CoinGraphTitle from './CoinGraphTitle';
 import DateButtons from './DateButtons';
-import BarGraph from './BarGraph';
+import OverviewGraph from './OverviewGraph';
 
 const CoinGraphs = () => {
 	return (
@@ -16,9 +16,11 @@ const CoinGraphs = () => {
 							<DateButtons />
 						</div>
 					</div>
-					<BarGraph />
+					<OverviewGraph type="line" />
 				</div>
-				<div className="flex flex-col items-center relative rounded-lg dark:bg-darkNonIntComponentBg bg-lightModeWhite w-[48%] h-80"></div>
+				<div className="flex flex-col items-center relative rounded-lg dark:bg-darkNonIntComponentBg bg-lightModeWhite w-[48%] h-80">
+					<OverviewGraph type="bar" />
+				</div>
 			</div>
 		</div>
 	);
