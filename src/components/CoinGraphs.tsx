@@ -6,10 +6,10 @@ import OverviewGraph from './OverviewGraph';
 
 const CoinGraphs = () => {
 	return (
-		<div className="flex flex-col">
+		<div className="flex flex-col my-4">
 			<CryptoDropdown />
-			<div className="flex justify-between">
-				<div className="flex flex-col items-center relative rounded-lg dark:bg-darkNonIntComponentBg bg-lightModeWhite w-[48%] h-80">
+			<div className="flex flex-col lg:flex-row justify-between items-center">
+				<div className="flex flex-col items-center relative rounded-lg dark:bg-darkNonIntComponentBg bg-lightModeWhite lg:w-[48%] w-11/12 mb-4 h-80">
 					<div className="flex justify-between items-start w-full p-4">
 						<CoinGraphTitle />
 						<div className="flex justify-between items-center w-80 h-7 rounded-lg dark:bg-darkIntComponentBg px-4">
@@ -18,7 +18,7 @@ const CoinGraphs = () => {
 					</div>
 					<OverviewGraph type="line" />
 				</div>
-				<div className="flex flex-col items-center relative rounded-lg dark:bg-darkNonIntComponentBg bg-lightModeWhite w-[48%] h-80">
+				<div className="hidden sm:flex flex-col items-center relative rounded-lg dark:bg-darkNonIntComponentBg bg-lightModeWhite lg:w-[48%] w-11/12 h-80">
 					<div className="flex justify-between items-start w-full p-4">
 						<CoinGraphTitle volume={true} />
 					</div>
