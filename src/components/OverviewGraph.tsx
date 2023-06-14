@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useAppSelector } from '../redux/app/hooks';
 import {
 	Chart as ChartJS,
@@ -11,6 +11,7 @@ import {
 	Title,
 	Tooltip,
 	Legend,
+	ScriptableContext,
 } from 'chart.js';
 import { Line, Bar } from 'react-chartjs-2';
 
@@ -38,13 +39,53 @@ const OverviewGraph: React.FC<OverviewGraphProps> = ({ type }) => {
 	const font = windowWidth > 786 ? 12 : 9;
 	const ticks = windowWidth > 786 ? 7 : 5;
 
-	const data = {
+	const lineData = {
 		labels,
 		datasets: [
 			{
-				data: type === 'bar' ? volume : prices,
-				backgroundColor: '#00BFA6',
+				data: prices,
+				fill: {
+					target: 'origin',
+				},
+				backgroundColor: (context: ScriptableContext<'line'>) => {
+					const gradient = context.chart.ctx.createLinearGradient(0, 0, 0, 350);
+					if (prices[0] > prices[prices.length - 1]) {
+						gradient.addColorStop(0, 'rgba(254, 16, 64, .5)');
+						gradient.addColorStop(1, 'rgba(0, 0, 0, 0.0)');
+					} else {
+						gradient.addColorStop(0, 'rgba(0, 255, 95, .5)');
+						gradient.addColorStop(1, 'rgba(0, 0, 0, 0.0)');
+					}
+					return gradient;
+				},
+				borderColor: () => {
+					let borderColor = '';
+					if (prices[0] > prices[prices.length - 1]) {
+						borderColor = 'rgba(254, 16, 64, 1)';
+					} else {
+						borderColor = 'rgba(0, 255, 95, 1)';
+					}
+					return borderColor;
+				},
+			},
+		],
+	};
+
+	const barData = {
+		labels,
+		datasets: [
+			{
+				data: volume,
 				borderColor: 'rgba(33, 114, 229, 1)',
+				backgroundColor: (context: ScriptableContext<'bar'>) => {
+					const gradient = context.chart.ctx.createLinearGradient(0, 0, 0, 350);
+					gradient.addColorStop(0, 'rgba(33, 114, 229, 1)');
+					gradient.addColorStop(1, 'rgba(0, 0, 0, 1)');
+					return gradient;
+				},
+				fill: {
+					target: 'origin',
+				},
 			},
 		],
 	};
@@ -54,7 +95,7 @@ const OverviewGraph: React.FC<OverviewGraphProps> = ({ type }) => {
 			{type === 'bar' ? (
 				<Bar
 					className="w-full"
-					data={data}
+					data={barData}
 					options={{
 						plugins: {
 							legend: {
@@ -92,10 +133,17 @@ const OverviewGraph: React.FC<OverviewGraphProps> = ({ type }) => {
 			) : (
 				<Line
 					className="w-full"
-					data={data}
+					data={lineData}
 					options={{
+						responsive: true,
+						elements: {
+							point: {
+								radius: 0,
+							},
+						},
 						plugins: {
 							legend: {
+								position: 'top',
 								display: false,
 							},
 							title: { display: false },
@@ -111,6 +159,7 @@ const OverviewGraph: React.FC<OverviewGraphProps> = ({ type }) => {
 								grid: {
 									display: false,
 									drawTicks: false,
+									lineWidth: 0,
 								},
 								ticks: {
 									maxRotation: 0,
