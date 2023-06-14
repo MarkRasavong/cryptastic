@@ -42,7 +42,7 @@ const OverviewGraph: React.FC<OverviewGraphProps> = ({ type }) => {
 		labels,
 		datasets: [
 			{
-				data: type === 'bar' ? prices : volume,
+				data: type === 'bar' ? volume : prices,
 				backgroundColor: '#00BFA6',
 				borderColor: 'rgba(33, 114, 229, 1)',
 			},

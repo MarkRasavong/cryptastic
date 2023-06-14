@@ -19,6 +19,9 @@ const CoinGraphs = () => {
 					<OverviewGraph type="line" />
 				</div>
 				<div className="flex flex-col items-center relative rounded-lg dark:bg-darkNonIntComponentBg bg-lightModeWhite w-[48%] h-80">
+					<div className="flex justify-between items-start w-full p-4">
+						<CoinGraphTitle volume={true} />
+					</div>
 					<OverviewGraph type="bar" />
 				</div>
 			</div>

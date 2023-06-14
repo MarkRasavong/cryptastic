@@ -8,6 +8,11 @@ interface CryptoIdData {
 		usd: number;
 		gbp: number;
 	};
+	total_volume: {
+		eur: number;
+		usd: number;
+		gbp: number;
+	};
 	last_updated: string;
 }
 interface CryptoData {
@@ -28,6 +33,7 @@ const initialState = {
 	prices: [] as number[],
 	volume: [] as number[],
 	currentPrice: 0,
+	totalVolume: 0,
 	lastUpdated: '',
 	selectedDate: [
 		{ title: '1d', range: 1, active: true },
@@ -64,6 +70,9 @@ const homeMarketGraphs = createSlice({
 		setCoinLastUpdated: (state, action) => {
 			state.lastUpdated = action.payload;
 		},
+		setCoinTotalVolume: (state, action) => {
+			state.totalVolume = action.payload;
+		},
 		setActiveSelectedDate: (state, action) => {
 			state.selectedDate = state.selectedDate.map((date) => {
 				if (date.title === action.payload) {
@@ -83,6 +92,7 @@ export const {
 	setPrices,
 	setVolume,
 	setCoinCurrentPrice,
+	setCoinTotalVolume,
 	setCoinLastUpdated,
 	setActiveSelectedDate,
 } = homeMarketGraphs.actions;
@@ -141,6 +151,7 @@ export const fetchCoinById = (): AppThunk => async (dispatch, getState) => {
 		const data = (await axios(`https://api.coingecko.com/api/v3/coins/${userSelection}/`)).data
 			.market_data as CryptoIdData;
 
+		dispatch(setCoinTotalVolume(data.total_volume[currency]));
 		dispatch(setCoinCurrentPrice(data.current_price[currency]));
 		dispatch(setCoinLastUpdated(data.last_updated));
 	} catch (error) {
