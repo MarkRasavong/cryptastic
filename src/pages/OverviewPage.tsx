@@ -2,13 +2,13 @@ import React from 'react';
 import { CoinTable } from '../components/CoinTable';
 import CoinGraphs from '../components/CoinGraphs';
 import { useAppDispatch } from '../redux/app/hooks';
-import { fetchCoinById, fetchLineGraphData } from '../features/homeMarketGraphs';
+import { fetchCoinById, fetchGraphData } from '../features/homeMarketGraphs';
 
 const OverviewPage = () => {
 	const dispatch = useAppDispatch();
 
 	dispatch(fetchCoinById());
-	dispatch(fetchLineGraphData('bar'));
+	dispatch(fetchGraphData());
 
 	return (
 		<section className="max-w-screen-lg mx-auto">

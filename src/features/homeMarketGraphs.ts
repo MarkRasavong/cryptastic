@@ -97,16 +97,18 @@ export const {
 	setActiveSelectedDate,
 } = homeMarketGraphs.actions;
 
-export const fetchLineGraphData = (): AppThunk => async (dispatch, getState) => {
+export const fetchGraphData = (): AppThunk => async (dispatch, getState) => {
 	const { value: currency } = getState().currency;
-	const { userSelection } = getState().homeMarketGraphs;
+	const { userSelection, selectedDate } = getState().homeMarketGraphs;
 
 	try {
 		dispatch(setApiLoading(true));
 
 		const data = (
 			await axios(
-				`https://api.coingecko.com/api/v3/coins/${userSelection}/market_chart?vs_currency=${currency}&days=1`
+				`https://api.coingecko.com/api/v3/coins/${userSelection}/market_chart?vs_currency=${currency}&days=${
+					selectedDate.find((date) => date.active === true)?.range
+				}`
 			)
 		).data as CryptoData;
 
