@@ -1,11 +1,17 @@
 import React from 'react';
 import { FaAngleDown } from 'react-icons/fa';
 import { useAppDispatch, useAppSelector } from '../redux/app/hooks';
-import { setMarketData } from '../features/homeMarketGraphs';
+import { fetchCoinById, fetchGraphData, setMarketData } from '../features/homeMarketGraphs';
 
 const CryptoDropdown = () => {
 	const dispatch = useAppDispatch();
 	const { userSelection } = useAppSelector((state) => state.homeMarketGraphs);
+
+	const handleCoinSelection = (coin: string) => {
+		dispatch(setMarketData(coin));
+		dispatch(fetchGraphData());
+		dispatch(fetchCoinById());
+	};
 
 	return (
 		<div className="relative inline-block border-none">
@@ -19,7 +25,7 @@ const CryptoDropdown = () => {
 				className="appearance-none bg-transparent opacity-0 absolute top-0 left-0 h-full w-full cursor-pointer dark:bg-darkBg bg-lightModeWhite pr-8"
 				id="crypto-select"
 				value={userSelection}
-				onChange={(e) => dispatch(setMarketData(e.target.value))}
+				onChange={(e) => handleCoinSelection(e.target.value)}
 				aria-label="Crypto Select"
 			>
 				<option value="bitcoin">Bitcoin</option>
