@@ -19,7 +19,7 @@ const CoinGraphs = () => {
 				<div
 					className={`${
 						toggleGraph !== 'line' && 'hidden'
-					} flex flex-col items-center relative rounded-lg dark:bg-darkNonIntComponentBg bg-lightModeWhite lg:w-[48%] w-11/12 sm:mb-4 h-80`}
+					} sm:flex flex-col items-center justify-between relative rounded-lg dark:bg-darkNonIntComponentBg bg-lightModeWhite lg:w-[48%] w-11/12 sm:mb-4 h-72`}
 				>
 					<div className="flex justify-between items-start w-full p-4">
 						<CoinGraphTitle />
@@ -32,7 +32,7 @@ const CoinGraphs = () => {
 				<div
 					className={`${
 						toggleGraph === 'line' && 'hidden'
-					} sm:flex flex-col items-center relative rounded-lg dark:bg-darkNonIntComponentBg bg-lightModeWhite lg:w-[48%] w-11/12 h-80`}
+					} sm:flex flex-col items-center relative rounded-lg dark:bg-darkNonIntComponentBg bg-lightModeWhite lg:w-[48%] w-11/12 sm:mb-4 h-72`}
 				>
 					<div className="flex justify-between items-start w-full p-4">
 						<CoinGraphTitle volume={true} />

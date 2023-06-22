@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState, Ref } from 'react';
 import { useAppSelector } from '../redux/app/hooks';
 import {
 	Chart as ChartJS,
@@ -14,6 +14,7 @@ import {
 	ScriptableContext,
 } from 'chart.js';
 import { Line, Bar } from 'react-chartjs-2';
+import { ChartJSOrUndefined } from 'react-chartjs-2/dist/types';
 
 ChartJS.register(
 	CategoryScale,
@@ -33,11 +34,32 @@ interface OverviewGraphProps {
 
 const OverviewGraph: React.FC<OverviewGraphProps> = ({ type }) => {
 	const { labels, prices, volume } = useAppSelector((state) => state.homeMarketGraphs);
+	const [ticks, setTicks] = useState(5);
+	const [font, setFont] = useState(9);
+	const lineChartRef = useRef<ChartJSOrUndefined<'line'> | null>(null);
+	const barChartRef = useRef<ChartJSOrUndefined<'bar'> | null>(null);
 
-	const windowWidth = window.innerWidth;
+	useEffect(() => {
+		const windowWidth = window.innerWidth;
 
-	const font = windowWidth > 786 ? 12 : 9;
-	const ticks = windowWidth > 786 ? 7 : 5;
+		const handleResize = () => {
+			setTicks(windowWidth > 786 ? 7 : 5);
+			setFont(windowWidth > 786 ? 12 : 9);
+
+			if (lineChartRef.current) {
+				lineChartRef.current.update();
+			}
+
+			if (barChartRef.current) {
+				barChartRef.current.update();
+			}
+		};
+
+		window.addEventListener('resize', handleResize);
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
+	}, [lineChartRef, barChartRef, window.innerWidth]);
 
 	const lineData = {
 		labels,
@@ -91,12 +113,14 @@ const OverviewGraph: React.FC<OverviewGraphProps> = ({ type }) => {
 	};
 
 	return (
-		<div className="w-[90%] flex justify-center">
+		<div className="flex justify-center w-[95%]">
 			{type === 'bar' ? (
 				<Bar
-					className="w-full"
+					className="h-[90%]"
 					data={barData}
+					ref={barChartRef}
 					options={{
+						maintainAspectRatio: false,
 						plugins: {
 							legend: {
 								display: false,
@@ -132,10 +156,11 @@ const OverviewGraph: React.FC<OverviewGraphProps> = ({ type }) => {
 				/>
 			) : (
 				<Line
-					className="w-full"
+					className="h-[90%]"
 					data={lineData}
+					ref={lineChartRef}
 					options={{
-						responsive: true,
+						maintainAspectRatio: false,
 						elements: {
 							point: {
 								radius: 0,
