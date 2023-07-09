@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import ThemeToggleIcon from './icons/ThemeToggleIcon';
-import SearchIcon from './icons/SearchIcon';
 import { useAppDispatch, useAppSelector } from '../redux/app/hooks';
 import { toggleDarkMode } from '../features/theme';
 import { fetchCoinsAfterCurrencyChange } from '../features/currency';
+import SearchBar from './SearchBar';
 
 const Header = () => {
 	const dispatch = useAppDispatch();
@@ -18,11 +18,6 @@ const Header = () => {
 
 	const currencyOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		dispatch(fetchCoinsAfterCurrencyChange(e.target.value));
-	};
-
-	const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		// do something with searchQuery
 	};
 
 	const linkTabs = ['Overview', 'Portfolio'];
@@ -62,18 +57,7 @@ const Header = () => {
 					))}
 				</div>
 				<div className="flex-1 flex justify-end">
-					<form
-						onSubmit={handleSearchSubmit}
-						className="flex items-center w-3/4 justify-end relative"
-					>
-						<input
-							type="text"
-							placeholder="Search..."
-							className="componentShape hidden md:inline-block md:w-3/4 py-2 md:px-4 px-0 md:mr-2 dark:focus:ring-darkModeText"
-							style={{ paddingLeft: '36px' }}
-						/>
-						<SearchIcon className="hidden md:inline-block absolute md:w-4 md:left-20 md:ml-7 lg:left-40 lg:ml-0.5 lg:mr-5 top-1/2 transform -translate-y-1/2" />
-					</form>
+					<SearchBar />
 					<select
 						name="currency"
 						onChange={(e) => currencyOnChange(e)}

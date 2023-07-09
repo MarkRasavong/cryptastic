@@ -60,7 +60,6 @@ export const CoinTable: React.FC = () => {
 		},
 	});
 
-	//console.log(coins && coins[0].sparkline_in_7d);
 	const setFilterArrowDirection = (id: number, prop: PropertyOfCoinGeckoApiProps) => {
 		const filter = Object.values(filterSelection).map((item) => {
 			if (item.id === id) {

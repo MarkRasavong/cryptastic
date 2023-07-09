@@ -114,8 +114,6 @@ export const fetchGraphData = (): AppThunk => async (dispatch, getState) => {
 
 		const { prices, total_volumes } = data;
 
-		console.log(prices);
-
 		const formatData: FormatLineGraphInterface = prices.reduce(
 			(acc, [label, price]) => ({
 				labels: [
