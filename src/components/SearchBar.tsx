@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import axios from 'axios';
 import SearchIcon from './icons/SearchIcon';
 import { useNavigate } from 'react-router-dom';
@@ -20,6 +20,7 @@ const SearchBar = () => {
 	const [error, setError] = useState('');
 
 	const navigate = useNavigate();
+	const resultsRef = useRef<HTMLDivElement>(null);
 
 	const handleSearch = async (value: string) => {
 		try {
@@ -70,7 +71,18 @@ const SearchBar = () => {
 		setResults([]);
 	};
 
-	console.log(results);
+	const handleOutsideClick = (e: MouseEvent) => {
+		if (resultsRef.current && !resultsRef.current.contains(e.target as Node)) {
+			setResults([]);
+		}
+	};
+
+	useEffect(() => {
+		document.addEventListener('click', handleOutsideClick);
+		return () => {
+			document.removeEventListener('click', handleOutsideClick);
+		};
+	}, []);
 
 	return (
 		<div className="flex flex-col w-full items-end">
@@ -87,7 +99,10 @@ const SearchBar = () => {
 					<SearchIcon className="hidden md:inline-block absolute md:w-4 md:left-0 md:ml-3 lg:left-2 lg:ml-0.5 lg:mr-5 top-1/2 transform -translate-y-1/2" />
 				</form>
 				{results.length > 0 && (
-					<div className="absolute bottom componentShape w-full hidden md:block p-2 z-50 cursor-pointer">
+					<div
+						ref={resultsRef}
+						className="absolute bottom componentShape w-full hidden md:block p-2 z-50 cursor-pointer"
+					>
 						{results.map((el) => (
 							<div
 								key={el.id}
