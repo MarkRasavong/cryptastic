@@ -84,9 +84,25 @@ const SearchBar = () => {
 						value={inputValue}
 						onChange={onChange}
 					/>
-					<SearchIcon className="hidden md:inline-block absolute md:w-4 md:left-20 md:ml-7 lg:left-40 lg:ml-0.5 lg:mr-5 top-1/2 transform -translate-y-1/2" />
+					<SearchIcon className="hidden md:inline-block absolute md:w-4 md:left-0 md:ml-3 lg:left-2 lg:ml-0.5 lg:mr-5 top-1/2 transform -translate-y-1/2" />
 				</form>
-				<div className="absolute bottom componentShape w-full hidden md:block py-6"></div>
+				{results.length > 0 && (
+					<div className="absolute bottom componentShape w-full hidden md:block p-2 z-50 cursor-pointer">
+						{results.map((el) => (
+							<div
+								key={el.id}
+								className="flex items-center justify-between py-2 px-4 hover:bg-gray-100 dark:hover:bg-darkNonIntComponentBg"
+								onClick={handleClick}
+							>
+								<div className="flex items-center">
+									<img src={el.thumb} alt={el.name} className="w-6 h-6 mr-2" />
+									<span>{el.name}</span>
+								</div>
+								<span className="text-gray-400">{el.symbol.toUpperCase()}</span>
+							</div>
+						))}
+					</div>
+				)}
 			</div>
 		</div>
 	);
