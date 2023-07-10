@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import CoinPageSummary from '../components/CoinPageSummary';
 import CoinPageMarketSummary from '../components/CoinPageMarketSummary';
+import CoinPageDataSummary from '../components/CoinPageDataSummary';
 
 const CoinPage: React.FC = () => {
 	const { id } = useParams();
@@ -40,7 +41,7 @@ const CoinPage: React.FC = () => {
 					<div className="flex justify-between">
 						<CoinPageSummary profile={profile} />
 						<CoinPageMarketSummary profile={profile} />
-						<div className="bg-lightModeWhite dark:bg-darkNonIntComponentBg dark:text-white w-12 rounded-lg"></div>
+						<CoinPageDataSummary profile={profile} />
 					</div>
 				</div>
 			)}

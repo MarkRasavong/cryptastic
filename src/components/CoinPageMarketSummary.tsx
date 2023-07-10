@@ -47,22 +47,22 @@ const CoinPageMarketSummary = ({ profile }: CoinPageSummaryProps) => {
 	};
 
 	return (
-		<div className="bg-lightModeWhite dark:bg-darkNonIntComponentBg dark:text-white w-fit py-4 p-14 rounded-lg text-center">
+		<div className="bg-lightModeWhite dark:bg-darkNonIntComponentBg dark:text-white w-fit py-4 p-14 rounded-lg text-center flex flex-col justify-between">
 			<div className="flex justify-center">
-				<h2 className="mr-2">
+				<h2 className="mr-2 text-2xl font-medium">
 					{setCurrency(currency)}
 					{roundToTwoDecimalPlaces(profile.market_data.current_price[currency])}
 				</h2>
 				{getPercentChange(profile.market_data.price_change_percentage_24h_in_currency[currency])}
 			</div>
-			<div className="text-xs mt-4 justify-center flex">
+			<div className="text-xs justify-center flex">
 				<span className="mr-1">Profit:</span>
 				{getProfit(
 					profile.market_data.price_change_percentage_24h_in_currency[currency],
 					profile.market_data.current_price[currency]
 				)}
 			</div>
-			<div className="w-full flex justify-center py-4">
+			<div className="w-full flex justify-center py-2">
 				<FaCoins />
 			</div>
 			<div className="flex flex-col justify-center">

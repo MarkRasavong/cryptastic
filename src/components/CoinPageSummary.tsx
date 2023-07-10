@@ -13,8 +13,8 @@ const CoinPageSummary = ({ profile }: CoinPageSummaryProps) => {
 				<div className="bg-lightModeBgGray dark:bg-darkIntComponentBg rounded-lg text-center flex p-4">
 					<img src={profile.image.thumb} alt={`${profile.name} logo`} />
 				</div>
-				<div className="text-sm mt-1">
-					<span id="profile_name_cryptoTitle" className="whitespace-nowrap">
+				<div className="text-sm mt-1 text-center">
+					<span id="profile_name_cryptoTitle">
 						{profile.name}
 						{profile.name.length > 7 && (
 							<>
@@ -22,7 +22,7 @@ const CoinPageSummary = ({ profile }: CoinPageSummaryProps) => {
 							</>
 						)}
 					</span>
-					<span id="profile_symbol_cryptoTitle" className="whitespace-nowrap">
+					<span id="profile_symbol_cryptoTitle">
 						{profile.symbol.length !== 0 && ` (${profile.symbol.toUpperCase()})`}
 					</span>
 				</div>
