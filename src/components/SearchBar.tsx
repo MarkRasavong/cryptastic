@@ -52,7 +52,9 @@ const SearchBar = () => {
 		setResults([]);
 	};
 
-	const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const onSubmit = (
+		e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLDivElement, MouseEvent>
+	) => {
 		e.preventDefault();
 		if (inputValue.length > 0 && results.length > 0) {
 			navigate(`/coin/${results[0].id}`);
@@ -106,7 +108,7 @@ const SearchBar = () => {
 							<div
 								key={el.id}
 								className="flex items-center justify-between py-2 px-4 hover:bg-gray-100 dark:hover:bg-darkNonIntComponentBg"
-								onClick={handleClear}
+								onClick={onSubmit}
 							>
 								<div className="flex items-center">
 									<img src={el.thumb} alt={el.name} className="w-6 h-6 mr-2" />

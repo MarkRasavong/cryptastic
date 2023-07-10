@@ -5,6 +5,7 @@ import { useAppSelector } from './redux/app/hooks';
 import OverviewPage from './pages/OverviewPage';
 import PortolioPage from './pages/PortolioPage';
 import CoinNavSummary from './components/CoinNavSummary';
+import CoinPage from './pages/CoinPage';
 
 function App() {
 	const { darkMode } = useAppSelector((state) => state.theme);
@@ -18,6 +19,7 @@ function App() {
 					<Routes>
 						<Route path="/" element={<OverviewPage />} />
 						<Route path="/portfolio" element={<PortolioPage />} />
+						<Route path={`/coin/:id`} element={<CoinPage />} />
 						{/* Misc. routes goes here 
               <Route path='*' element={<Error404 />} />
 							*/}
