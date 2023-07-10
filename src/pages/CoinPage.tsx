@@ -38,7 +38,12 @@ const CoinPage: React.FC = () => {
 					<div className="mb-6">
 						<h1>{profile.name} Summary</h1>
 					</div>
-					<div className="flex justify-between">
+					<div className="hidden sm:flex sm:justify-between">
+						<CoinPageSummary profile={profile} />
+						<CoinPageMarketSummary profile={profile} />
+						<CoinPageDataSummary profile={profile} />
+					</div>
+					<div className="flex flex-col justify-between items-center sm:hidden">
 						<CoinPageSummary profile={profile} />
 						<CoinPageMarketSummary profile={profile} />
 						<CoinPageDataSummary profile={profile} />
@@ -234,8 +239,4 @@ export interface CoinPageData {
 		last_updated: string;
 	};
 	last_updated: string;
-}
-
-function formatCurrency(profitPercent: string | number) {
-	throw new Error('Function not implemented.');
 }

@@ -47,7 +47,7 @@ const CoinPageMarketSummary = ({ profile }: CoinPageSummaryProps) => {
 	};
 
 	return (
-		<div className="bg-lightModeWhite dark:bg-darkNonIntComponentBg dark:text-white w-fit py-4 p-14 rounded-lg text-center flex flex-col justify-between">
+		<div className="bg-lightModeWhite dark:bg-darkNonIntComponentBg dark:text-white w-4/5 mb-4 sm:mb-0 sm:w-fit py-4 p-14 rounded-lg text-center flex flex-col justify-between">
 			<div className="flex justify-center">
 				<h2 className="mr-2 text-2xl font-medium">
 					{setCurrency(currency)}
@@ -62,15 +62,15 @@ const CoinPageMarketSummary = ({ profile }: CoinPageSummaryProps) => {
 					profile.market_data.current_price[currency]
 				)}
 			</div>
-			<div className="w-full flex justify-center py-2">
+			<div className="w-full flex justify-center py-6 sm:py-2">
 				<FaCoins />
 			</div>
 			<div className="flex flex-col justify-center">
-				<div className="flex items-center w-full">
+				<div className="flex items-center justify-center w-full">
 					<div className="mr-2">
 						<TickerSymbolUp />
 					</div>
-					<div className="flex flex-col text-[0.6rem]">
+					<div className="flex flex-col py-2 sm:text-[0.6rem]">
 						<p className="leading-6">
 							<span className="font-bold">All Time High:</span> {setCurrency(currency)}
 							{setNotation(profile.market_data.ath[currency])}
@@ -78,11 +78,11 @@ const CoinPageMarketSummary = ({ profile }: CoinPageSummaryProps) => {
 						<p>{setDate(profile.market_data.ath_date[currency])}</p>
 					</div>
 				</div>
-				<div className="flex items-center w-full">
+				<div className="flex items-center justify-center w-full">
 					<div className="mr-2">
 						<TickerSymbolDown />
 					</div>
-					<div className="flex flex-col text-[0.6rem] mt-2">
+					<div className="flex flex-col py-2 sm:text-[0.6rem] mt-2">
 						<p className="leading-6">
 							<span className="font-bold">All Time Low:</span> {setCurrency(currency)}
 							{setNotation(profile.market_data.atl[currency])}

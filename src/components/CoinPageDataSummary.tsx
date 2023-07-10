@@ -117,21 +117,21 @@ const CoinPageDataSummary = ({ profile }: CoinPageSummaryProps) => {
 	];
 
 	return (
-		<div className="bg-lightModeWhite dark:bg-darkNonIntComponentBg dark:text-white w-fit p-4 rounded-lg text-center flex flex-col justify-around">
-			<div>
+		<div className="bg-lightModeWhite dark:bg-darkNonIntComponentBg dark:text-white w-4/5 sm:w-fit p-4 rounded-lg text-center flex flex-col justify-around">
+			<div className="mb-6 sm:mb-0">
 				{stats.slice(0, 4).map((stat, idx) => (
 					<div key={`stats_top_${idx}`} className="flex mb-1">
 						<PlusIcon />
-						<span className="ml-2 text-[0.6rem] font-bold">{stat.title}</span>
-						<span className="ml-2 text-[0.6rem]">{stat.value}</span>
+						<span className="ml-2 sm:text-[0.6rem] font-bold">{stat.title}</span>
+						<span className="ml-2 sm:text-[0.6rem]">{stat.value}</span>
 					</div>
 				))}
 				<div className="mt-5">
 					{stats.slice(4).map((stat, idx) => (
 						<div key={`stats_btm_${idx}`} className="flex mb-1">
 							<PlusIcon />
-							<span className="ml-2 text-[0.6rem] font-bold">{stat.title}</span>
-							<span className="ml-2 text-[0.6rem]">{stat.value}</span>
+							<span className="ml-2 sm:text-[0.6rem] font-bold">{stat.title}</span>
+							<span className="ml-2 sm:text-[0.6rem]">{stat.value}</span>
 						</div>
 					))}
 				</div>
