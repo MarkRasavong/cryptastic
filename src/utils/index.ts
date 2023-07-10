@@ -40,3 +40,20 @@ export const timeConverter = (t: string): string => {
 export const roundToNumber = (number: number, roundNum: number) => {
 	return +(Math.round(number + Math.pow(10, roundNum)) + 'e-' + roundNum);
 };
+
+export const setToSciNotation = (decimal: number, roundNum: number) => {
+	return Number.parseFloat(String(decimal)).toExponential(roundNum);
+};
+
+export const setDate = (dateString: number) => {
+	const formatDate = new Date(dateString);
+	const hours = formatDate.getHours();
+	const minutes = formatDate.getMinutes();
+	const seconds = formatDate.getSeconds();
+
+	return `${formatDate.toLocaleDateString('en-US')}, 
+    ${hours < 12 ? hours : hours - 12}:${minutes < 10 ? '0' + minutes : minutes}:${
+		seconds < 10 ? '0' + seconds : seconds
+	}
+    ${hours < 12 ? 'AM' : 'PM'}`;
+};

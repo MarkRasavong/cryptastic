@@ -3,6 +3,52 @@ import { useAppSelector } from '../redux/app/hooks';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import CoinPageSummary from '../components/CoinPageSummary';
+import CoinPageMarketSummary from '../components/CoinPageMarketSummary';
+
+const CoinPage: React.FC = () => {
+	const { id } = useParams();
+	const currency = useAppSelector((state) => state.currency.value);
+	const [profile, setProfile] = useState<CoinPageData>();
+	const [isLoading, setIsLoading] = useState(false);
+
+	const getCoinInfo = async () => {
+		try {
+			setIsLoading(true);
+			const { data } = await axios(
+				`https://api.coingecko.com/api/v3/coins/${id}?localization=false&tickers=false&market_data=true&community_data=true&developer_data=false&sparkline=true`
+			);
+			setProfile(data);
+			setIsLoading(false);
+		} catch (err) {
+			console.log('Location Error:', err);
+		}
+	};
+
+	useEffect(() => {
+		getCoinInfo();
+	}, [id]);
+
+	const hasCoinProfile = !isLoading && profile;
+
+	return (
+		<section className="max-w-screen-md mx-auto">
+			{hasCoinProfile && (
+				<div className="flex flex-col my-4">
+					<div className="mb-6">
+						<h1>{profile.name} Summary</h1>
+					</div>
+					<div className="flex justify-between">
+						<CoinPageSummary profile={profile} />
+						<CoinPageMarketSummary profile={profile} />
+						<div className="bg-lightModeWhite dark:bg-darkNonIntComponentBg dark:text-white w-12 rounded-lg"></div>
+					</div>
+				</div>
+			)}
+		</section>
+	);
+};
+
+export default CoinPage;
 
 export interface CoinPageData {
 	id: string;
@@ -189,49 +235,6 @@ export interface CoinPageData {
 	last_updated: string;
 }
 
-const CoinPage: React.FC = () => {
-	const { id } = useParams();
-	const currency = useAppSelector((state) => state.currency.value);
-	const [profile, setProfile] = useState<CoinPageData>();
-	const [isLoading, setIsLoading] = useState(false);
-
-	const getCoinInfo = async () => {
-		try {
-			setIsLoading(true);
-			const { data } = await axios(
-				`https://api.coingecko.com/api/v3/coins/${id}?localization=false&tickers=false&market_data=true&community_data=true&developer_data=false&sparkline=true`
-			);
-			setProfile(data);
-			setIsLoading(false);
-		} catch (err) {
-			console.log('Location Error:', err);
-		}
-	};
-
-	useEffect(() => {
-		getCoinInfo();
-	}, [id]);
-
-	const hasCoinProfile = !isLoading && profile;
-
-	console.log(profile);
-
-	return (
-		<section className="max-w-screen-md mx-auto">
-			{hasCoinProfile && (
-				<div className="flex flex-col my-4">
-					<div className="mb-6">
-						<h1>{profile.name} Summary</h1>
-					</div>
-					<div className="flex justify-between">
-						<CoinPageSummary profile={profile} />
-						<div className="bg-lightModeWhite dark:bg-darkNonIntComponentBg dark:text-white h-12 w-12 rounded-lg"></div>
-						<div className="bg-lightModeWhite dark:bg-darkNonIntComponentBg dark:text-white h-12 w-12 rounded-lg"></div>
-					</div>
-				</div>
-			)}
-		</section>
-	);
-};
-
-export default CoinPage;
+function formatCurrency(profitPercent: string | number) {
+	throw new Error('Function not implemented.');
+}

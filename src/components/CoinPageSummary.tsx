@@ -9,8 +9,8 @@ interface CoinPageSummaryProps {
 const CoinPageSummary = ({ profile }: CoinPageSummaryProps) => {
 	return (
 		<div>
-			<div className="bg-lightModeWhite dark:bg-darkNonIntComponentBg dark:text-white rounded-lg px-6 py-12 flex flex-col justify-center text-center items-center">
-				<div className="bg-lightModeBgGray dark:bg-darkIntComponentBg rounded-lg text-center flex justify-center p-4 w-fit">
+			<div className="bg-lightModeWhite dark:bg-darkNonIntComponentBg dark:text-white rounded-lg px-6 py-12 flex flex-col items-center">
+				<div className="bg-lightModeBgGray dark:bg-darkIntComponentBg rounded-lg text-center flex p-4">
 					<img src={profile.image.thumb} alt={`${profile.name} logo`} />
 				</div>
 				<div className="text-sm mt-1">
