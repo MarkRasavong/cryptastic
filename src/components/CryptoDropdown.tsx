@@ -22,7 +22,7 @@ const CryptoDropdown = () => {
 				</span>
 			</div>
 			<select
-				className="appearance-none bg-transparent opacity-0 absolute top-0 left-0 h-full w-full cursor-pointer dark:bg-darkBg bg-lightModeWhite pr-8"
+				className="appearance-none bg-transparent opacity-0 absolute top-0 left-0 h-full w-2/12 cursor-pointer dark:bg-darkBg bg-lightModeWhite pr-8"
 				id="crypto-select"
 				value={userSelection}
 				onChange={(e) => handleCoinSelection(e.target.value)}

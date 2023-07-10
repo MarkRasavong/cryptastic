@@ -60,6 +60,7 @@ export const CoinTable: React.FC = () => {
 		},
 	});
 
+	//console.log(coins && coins[0].sparkline_in_7d);
 	const setFilterArrowDirection = (id: number, prop: PropertyOfCoinGeckoApiProps) => {
 		const filter = Object.values(filterSelection).map((item) => {
 			if (item.id === id) {
@@ -86,7 +87,7 @@ export const CoinTable: React.FC = () => {
 						<div className="w-full flex justify-center">
 							<ThreeDotsLoader color="#2c2fe6" width={60} />
 						</div>
-					} //add three dots loading
+					}
 					next={() => dispatch(scrollMoreCoins())}
 				>
 					<TableFilter />
@@ -115,112 +116,108 @@ export const CoinTable: React.FC = () => {
 							</tr>
 						</thead>
 						<tbody>
-							{hasCoins
-								? coins.map((coin) => (
-										<tr
-											key={`td_${coin.name}`}
-											className="border-b dark:border-darkIntComponentBg border-x-lightModeBgFooterMobile"
-										>
-											<td className="text-center">
-												<div>{coin.market_cap_rank}</div>
-											</td>
-											<td>
-												<div className="flex">
-													<img
-														src={coin.image}
-														alt={coin.name + ' logo'}
-														className="mr-2 w-5 h-5"
-													/>
-													<span className="flex">
-														<p className="mr-2">
-															{coin.name} {`(${coin.symbol.toLocaleUpperCase()})`}
-														</p>
-													</span>
-												</div>
-											</td>
-											<td className="text-center">
-												{setCurrency(currency)}
-												{coin.current_price}
-											</td>
-											<td>
-												<span className="flex items-center justify-center">
-													{coin.price_change_percentage_1h_in_currency > 0 ? (
-														<TickerSymbolUp />
-													) : (
-														<TickerSymbolDown />
-													)}
-													{roundToTwoDecimalPlaces(coin.price_change_percentage_1h_in_currency)}
-												</span>
-											</td>
-											<td>
-												<span className="flex items-center justify-center">
-													{coin.price_change_percentage_24h_in_currency > 0 ? (
-														<TickerSymbolUp />
-													) : (
-														<TickerSymbolDown />
-													)}
-													{roundToTwoDecimalPlaces(coin.price_change_percentage_24h_in_currency)}
-												</span>
-											</td>
-											<td>
-												<span className="flex items-center justify-center">
-													{coin.price_change_percentage_7d_in_currency > 0 ? (
-														<TickerSymbolUp />
-													) : (
-														<TickerSymbolDown />
-													)}
-													{roundToTwoDecimalPlaces(coin.price_change_percentage_7d_in_currency)}
-												</span>
-											</td>
-											<td>
-												<ProgressBar
-													values={{ first: coin.total_volume, second: coin.market_cap }}
-													className="mr-2"
-												/>
-											</td>
-											<td>
-												<ProgressBar
-													values={{ first: coin.circulating_supply, second: coin.total_supply }}
-													className="mr-2"
-												/>
-											</td>
-											<td>
-												<SmallGraph graphData={coin.sparkline_in_7d.price} className="mr-2" />
-											</td>
-											<div className="border-b dark:border-darkIntComponentBg border-x-lightModeBgFooterMobile w-full"></div>
-										</tr>
-								  ))
-								: loadingplaceHolders.map((item, idx) => (
-										<tr key={idx + '_skeletonCoinTable'} aria-label="loading skeleton">
-											<td>
-												<div className="skeletonCoinTableSkeleton w-11/12 mb-1" />
-											</td>
-											<td>
-												<div className="skeletonCoinTableSkeleton w-11/12 mb-1" />
-											</td>
-											<td>
-												<div className="skeletonCoinTableSkeleton w-11/12 mb-1" />
-											</td>
-											<td>
-												<div className="skeletonCoinTableSkeleton w-11/12 mb-1" />
-											</td>
-											<td>
-												<div className="skeletonCoinTableSkeleton w-11/12 mb-1" />
-											</td>
-											<td>
-												<div className="skeletonCoinTableSkeleton w-11/12 mb-1" />
-											</td>
-											<td>
-												<div className="skeletonCoinTableSkeleton w-11/12 mb-1" />
-											</td>
-											<td>
-												<div className="skeletonCoinTableSkeleton w-11/12 mb-1" />
-											</td>
-											<td>
-												<div className="skeletonCoinTableSkeleton w-11/12 mb-1" />
-											</td>
-										</tr>
-								  ))}
+							{coins.map((coin) => (
+								<tr
+									key={`td_${coin.name}`}
+									className="border-b dark:border-darkIntComponentBg border-x-lightModeBgFooterMobile"
+								>
+									<td className="text-center">
+										<div>{coin.market_cap_rank}</div>
+									</td>
+									<td>
+										<div className="flex">
+											<img src={coin.image} alt={coin.name + ' logo'} className="mr-2 w-5 h-5" />
+											<span className="flex">
+												<p className="mr-2">
+													{coin.name} {`(${coin.symbol.toLocaleUpperCase()})`}
+												</p>
+											</span>
+										</div>
+									</td>
+									<td className="text-center">
+										{setCurrency(currency)}
+										{coin.current_price}
+									</td>
+									<td>
+										<span className="flex items-center justify-center">
+											{coin.price_change_percentage_1h_in_currency > 0 ? (
+												<TickerSymbolUp />
+											) : (
+												<TickerSymbolDown />
+											)}
+											{roundToTwoDecimalPlaces(coin.price_change_percentage_1h_in_currency)}
+										</span>
+									</td>
+									<td>
+										<span className="flex items-center justify-center">
+											{coin.price_change_percentage_24h_in_currency > 0 ? (
+												<TickerSymbolUp />
+											) : (
+												<TickerSymbolDown />
+											)}
+											{roundToTwoDecimalPlaces(coin.price_change_percentage_24h_in_currency)}
+										</span>
+									</td>
+									<td>
+										<span className="flex items-center justify-center">
+											{coin.price_change_percentage_7d_in_currency > 0 ? (
+												<TickerSymbolUp />
+											) : (
+												<TickerSymbolDown />
+											)}
+											{roundToTwoDecimalPlaces(coin.price_change_percentage_7d_in_currency)}
+										</span>
+									</td>
+									<td>
+										<ProgressBar
+											values={{ first: coin.total_volume, second: coin.market_cap }}
+											className="mr-2"
+										/>
+									</td>
+									<td>
+										<ProgressBar
+											values={{ first: coin.circulating_supply, second: coin.total_supply }}
+											className="mr-2"
+										/>
+									</td>
+									<td>
+										<SmallGraph graphData={coin.sparkline_in_7d.price} className="mr-2" />
+									</td>
+									<div className="border-b dark:border-darkIntComponentBg border-x-lightModeBgFooterMobile w-full"></div>
+								</tr>
+							))}
+							{coins.length === 0 &&
+								loadingplaceHolders.map((item, idx) => (
+									<tr key={idx + '_skeletonCoinTable'} aria-label="loading skeleton">
+										<td>
+											<div className="skeletonCoinTableSkeleton w-11/12 mb-1" />
+										</td>
+										<td>
+											<div className="skeletonCoinTableSkeleton w-11/12 mb-1" />
+										</td>
+										<td>
+											<div className="skeletonCoinTableSkeleton w-11/12 mb-1" />
+										</td>
+										<td>
+											<div className="skeletonCoinTableSkeleton w-11/12 mb-1" />
+										</td>
+										<td>
+											<div className="skeletonCoinTableSkeleton w-11/12 mb-1" />
+										</td>
+										<td>
+											<div className="skeletonCoinTableSkeleton w-11/12 mb-1" />
+										</td>
+										<td>
+											<div className="skeletonCoinTableSkeleton w-11/12 mb-1" />
+										</td>
+										<td>
+											<div className="skeletonCoinTableSkeleton w-11/12 mb-1" />
+										</td>
+										<td>
+											<div className="skeletonCoinTableSkeleton w-11/12 mb-1" />
+										</td>
+									</tr>
+								))}
 						</tbody>
 					</table>
 				</InfiniteScroll>

@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { AppThunk } from '../redux/app/store';
 
-interface CoinGeckoApiProps {
+export interface CoinGeckoApiProps {
 	ath: number;
 	ath_change_percentage: number;
 	ath_date: string;
@@ -51,6 +51,7 @@ interface CategoryProps {
 const initialState = {
 	coins: [] as CoinGeckoApiProps[],
 	apiLoading: false,
+	page: 1,
 	itemsPerPage: 25,
 	category: [
 		{ title: 'Cryptocurrency', value: '', active: true },
@@ -80,6 +81,9 @@ const apiSlice = createSlice({
 		setItemsPerPage: (state) => {
 			state.itemsPerPage = state.itemsPerPage + 25;
 		},
+		increamentPage: (state) => {
+			state.page = state.page + 1;
+		},
 		setActiveCategory: (state, action) => {
 			const updatedCategories = state.category.map((c) => ({
 				...c,
@@ -91,18 +95,24 @@ const apiSlice = createSlice({
 	},
 });
 
-export const { setApiLoading, setCoins, setItemsPerPage, setActiveCategory, getFilteredCoins } =
-	apiSlice.actions;
+export const {
+	setApiLoading,
+	setCoins,
+	setItemsPerPage,
+	setActiveCategory,
+	getFilteredCoins,
+	increamentPage,
+} = apiSlice.actions;
 
 export const fetchCoinData = (): AppThunk => async (dispatch, getState) => {
-	const { category, itemsPerPage } = getState().api;
+	const { category, itemsPerPage, page } = getState().api;
 	const { value: currency } = getState().currency;
 	try {
 		dispatch(setApiLoading(true));
 		const categoryType =
 			category.find((c) => c.active === true)!.value === '' ? '' : `&category=${category}`;
 		const { data } = await axios(
-			`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}${categoryType}&order=market_cap_desc&per_page=${itemsPerPage}&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
+			`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}${categoryType}&order=market_cap_desc&per_page=${itemsPerPage}&page=${page}&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
 		);
 		dispatch(setCoins(data));
 		dispatch(setApiLoading(false));

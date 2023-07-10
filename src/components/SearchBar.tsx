@@ -47,13 +47,17 @@ const SearchBar = () => {
 		};
 	}, [debouncedChangeHandler]);
 
+	const handleClear = () => {
+		setInputValue('');
+		setResults([]);
+	};
+
 	const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (inputValue.length > 0 && results.length > 0) {
 			navigate(`/coin/${results[0].id}`);
 		}
-		setInputValue('');
-		setResults([]);
+		handleClear();
 	};
 
 	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,14 +70,9 @@ const SearchBar = () => {
 		setInputValue(value);
 	};
 
-	const handleClick = () => {
-		setInputValue('');
-		setResults([]);
-	};
-
 	const handleOutsideClick = (e: MouseEvent) => {
-		if (resultsRef.current && !resultsRef.current.contains(e.target as Node)) {
-			setResults([]);
+		if (!inputValue && resultsRef.current && !resultsRef.current.contains(e.target as Node)) {
+			handleClear();
 		}
 	};
 
@@ -107,7 +106,7 @@ const SearchBar = () => {
 							<div
 								key={el.id}
 								className="flex items-center justify-between py-2 px-4 hover:bg-gray-100 dark:hover:bg-darkNonIntComponentBg"
-								onClick={handleClick}
+								onClick={handleClear}
 							>
 								<div className="flex items-center">
 									<img src={el.thumb} alt={el.name} className="w-6 h-6 mr-2" />
