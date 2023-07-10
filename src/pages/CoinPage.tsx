@@ -5,6 +5,7 @@ import axios from 'axios';
 import CoinPageSummary from '../components/CoinPageSummary';
 import CoinPageMarketSummary from '../components/CoinPageMarketSummary';
 import CoinPageDataSummary from '../components/CoinPageDataSummary';
+import { FaCoins } from 'react-icons/fa';
 
 const CoinPage: React.FC = () => {
 	const { id } = useParams();
@@ -32,25 +33,38 @@ const CoinPage: React.FC = () => {
 	const hasCoinProfile = !isLoading && profile;
 
 	return (
-		<section className="max-w-screen-md mx-auto">
+		<div className="max-w-screen-md mx-auto">
 			{hasCoinProfile && (
 				<div className="flex flex-col my-4">
-					<div className="mb-6">
-						<h1>{profile.name} Summary</h1>
-					</div>
-					<div className="hidden sm:flex sm:justify-between">
-						<CoinPageSummary profile={profile} />
-						<CoinPageMarketSummary profile={profile} />
-						<CoinPageDataSummary profile={profile} />
-					</div>
-					<div className="flex flex-col justify-between items-center sm:hidden">
-						<CoinPageSummary profile={profile} />
-						<CoinPageMarketSummary profile={profile} />
-						<CoinPageDataSummary profile={profile} />
-					</div>
+					<section id="coin-summary">
+						<div className="mb-6">
+							<h1>{profile.name} Summary</h1>
+						</div>
+						<div className="hidden sm:flex sm:justify-between">
+							<CoinPageSummary profile={profile} />
+							<CoinPageMarketSummary profile={profile} />
+							<CoinPageDataSummary profile={profile} />
+						</div>
+						<div className="flex flex-col justify-between items-center sm:hidden">
+							<CoinPageSummary profile={profile} />
+							<CoinPageMarketSummary profile={profile} />
+							<CoinPageDataSummary profile={profile} />
+						</div>
+					</section>
+					<section id="coin-description" className="flex flex-col items-center">
+						<div className="my-6 self-start">
+							<h1>Description</h1>
+						</div>
+						<div className="flex flex-col bg-lightModeWhite dark:bg-darkNonIntComponentBg rounded-lg w-4/5 sm:w-fit">
+							<div className="w-full justify-center flex p-6">
+								<FaCoins />
+							</div>
+							<p className="px-8 pb-6 text-center">{profile.description.en}</p>
+						</div>
+					</section>
 				</div>
 			)}
-		</section>
+		</div>
 	);
 };
 

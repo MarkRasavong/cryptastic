@@ -47,7 +47,7 @@ const CoinPageMarketSummary = ({ profile }: CoinPageSummaryProps) => {
 	};
 
 	return (
-		<div className="bg-lightModeWhite dark:bg-darkNonIntComponentBg dark:text-white w-4/5 mb-4 sm:mb-0 sm:w-fit py-4 p-14 rounded-lg text-center flex flex-col justify-between">
+		<div className="bg-lightModeWhite dark:bg-darkNonIntComponentBg w-4/5 mb-4 sm:mb-0 sm:w-fit py-4 p-14 rounded-lg text-center flex flex-col justify-between">
 			<div className="flex justify-center">
 				<h2 className="mr-2 text-2xl font-medium">
 					{setCurrency(currency)}
