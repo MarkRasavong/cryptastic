@@ -6,6 +6,7 @@ import CoinPageSummary from '../components/CoinPageSummary';
 import CoinPageMarketSummary from '../components/CoinPageMarketSummary';
 import CoinPageDataSummary from '../components/CoinPageDataSummary';
 import { FaCoins } from 'react-icons/fa';
+import CoinPageLinks from '../components/CoinPageLinks';
 
 const CoinPage: React.FC = () => {
 	const { id } = useParams();
@@ -61,6 +62,12 @@ const CoinPage: React.FC = () => {
 							</div>
 							<p className="px-8 pb-6 text-center">{profile.description.en}</p>
 						</div>
+					</section>
+					<section
+						id="coin-links"
+						className="flex max-[640px]:flex-col max-[640px]:items-center justify-between my-6"
+					>
+						<CoinPageLinks profile={profile} />
 					</section>
 				</div>
 			)}
