@@ -1,9 +1,14 @@
 /** @type {import('tailwindcss').Config} */
+import defaultTheme from 'tailwindcss/defaultTheme';
 
 export default {
 	content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
 	darkMode: 'class',
 	theme: {
+		screens: {
+			mobile: { min: '0px', max: '640px' },
+			...defaultTheme.screens,
+		},
 		extend: {
 			colors: {
 				darkBg: '#1f2128',

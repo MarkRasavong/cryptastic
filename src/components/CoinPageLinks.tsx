@@ -13,7 +13,7 @@ const CoinPageLinks = ({ profile }: CoinPageSummaryProps) => {
 	return (
 		<>
 			{availableLinks.slice(0, arrayLength).map((site) => (
-				<div className="flex justify-between bg-lightModeWhite dark:bg-darkNonIntComponentBg rounded-lg items-center w-4/5 max-[640px]:mb-4">
+				<div className="flex justify-between bg-lightModeWhite dark:bg-darkNonIntComponentBg rounded-lg items-center w-4/5 mobile:mb-4">
 					<button className=" cursor-pointer p-4">
 						<FaLink />
 					</button>

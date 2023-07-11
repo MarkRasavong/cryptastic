@@ -60,12 +60,17 @@ const CoinPage: React.FC = () => {
 							<div className="w-full justify-center flex p-6">
 								<FaCoins />
 							</div>
-							<p className="px-8 pb-6 text-center">{profile.description.en}</p>
+							<div
+								className="px-8 pb-6 text-center"
+								dangerouslySetInnerHTML={{
+									__html: profile.description.en,
+								}}
+							/>
 						</div>
 					</section>
 					<section
 						id="coin-links"
-						className="flex max-[640px]:flex-col max-[640px]:items-center justify-between my-6"
+						className="flex mobile:flex-col mobile:items-center justify-between my-6"
 					>
 						<CoinPageLinks profile={profile} />
 					</section>
