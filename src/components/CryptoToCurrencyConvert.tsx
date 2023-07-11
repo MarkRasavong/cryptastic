@@ -36,11 +36,11 @@ const CryptoToCurrencyConvert = ({ profile }: CryptoToCurrencyConvertProps) => {
 	return (
 		<>
 			<div className="relative mobile:w-4/5">
-				<div className="bg-cryptoGreen rounded-md absolute inset-y-0 left-0 p-2 pointer-events-none flex items-center justify-center">
+				<div className="bg-cryptoGreen rounded-md min-w-[60px] absolute inset-y-0 left-0 p-2 pointer-events-none flex items-center justify-center">
 					{profile.symbol.toUpperCase()}
 				</div>
 				<input
-					className="overflow-y-hidden pl-16 px-4 py-2 mobile:w-full border-darkNonIntComponentBg rounded-md bg-lightModeWhite dark:bg-darkNonIntComponentBg"
+					className="overflow-y-hidden pl-20 px-4 py-2 mobile:w-full border-darkNonIntComponentBg rounded-md bg-lightModeWhite dark:bg-darkNonIntComponentBg"
 					type="number"
 					onChange={handleCryptoChange}
 					value={inputValue}
@@ -50,11 +50,11 @@ const CryptoToCurrencyConvert = ({ profile }: CryptoToCurrencyConvertProps) => {
 			<FaXing className="mx-8 mobile:my-3" size={'1.5rem'} />
 
 			<div className="relative mobile:w-4/5">
-				<div className="bg-cryptoGreen rounded-md absolute inset-y-0 left-0 p-2 pointer-events-none flex items-center justify-center">
+				<div className="bg-cryptoGreen rounded-md min-w-[60px] absolute inset-y-0 left-0 p-2 pointer-events-none flex items-center justify-center">
 					{currency.toUpperCase()}
 				</div>
 				<input
-					className="overflow-y-hidden pl-16 px-4 py-2 mobile:w-full border-darkNonIntComponentBg rounded-md bg-lightModeWhite dark:bg-darkNonIntComponentBg"
+					className="overflow-y-hidden pl-20 px-4 py-2 mobile:w-full border-darkNonIntComponentBg rounded-md bg-lightModeWhite dark:bg-darkNonIntComponentBg"
 					type="number"
 					onChange={handleFiatChange}
 					value={fiatValue}
