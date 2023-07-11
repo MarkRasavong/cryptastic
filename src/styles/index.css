@@ -44,6 +44,32 @@
 	animation: shimmer 2s infinite;
 }
 
+.crypto-pg-radio-input {
+	position: relative;
+	background-color: #1f2128;
+	cursor: pointer;
+}
+
+.crypto-pg-radio-input:after {
+	width: 14px;
+	height: 14px;
+	border-radius: 15px;
+	top: -4px;
+	left: -1px;
+	position: relative;
+	background-color: #1f2128;
+	content: '';
+	display: inline-block;
+	visibility: visible;
+	border: 2px solid #06d554;
+	box-shadow: 0 0 6px 2px rgba(6, 213, 84, 0.5);
+}
+
+.crypto-pg-radio-input:checked:after {
+	background-color: #06d554;
+	box-shadow: 0 0 8px 3px rgba(6, 213, 84, 0.5);
+}
+
 /*
 shimer1 #1F2128
 	shimer2 #2C2FE6

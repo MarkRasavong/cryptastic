@@ -8,6 +8,7 @@ import CoinPageDataSummary from '../components/CoinPageDataSummary';
 import { FaCoins } from 'react-icons/fa';
 import CoinPageLinks from '../components/CoinPageLinks';
 import CryptoToCurrencyConvert from '../components/CryptoToCurrencyConvert';
+import CoinPageGraph from '../components/CoinPageGraph';
 
 const CoinPage: React.FC = () => {
 	const { id } = useParams();
@@ -34,57 +35,64 @@ const CoinPage: React.FC = () => {
 	const hasCoinProfile = !isLoading && profile;
 
 	return (
-		<div className="max-w-screen-md mx-auto">
+		<>
 			{hasCoinProfile && (
-				<div className="flex flex-col my-4">
-					<section id="coin-summary">
-						<div className="mb-6">
-							<h1>{profile.name} Summary</h1>
-						</div>
-						<div className="hidden sm:flex sm:justify-between">
-							<CoinPageSummary profile={profile} />
-							<CoinPageMarketSummary profile={profile} />
-							<CoinPageDataSummary profile={profile} />
-						</div>
-						<div className="flex flex-col justify-between items-center sm:hidden">
-							<CoinPageSummary profile={profile} />
-							<CoinPageMarketSummary profile={profile} />
-							<CoinPageDataSummary profile={profile} />
-						</div>
-					</section>
-					{profile.description.en.length > 0 && (
-						<section id="coin-description" className="flex flex-col items-center">
-							<div className="my-6 self-start">
-								<h1>Description</h1>
-							</div>
-							<div className="flex flex-col bg-lightModeWhite dark:bg-darkNonIntComponentBg rounded-lg w-4/5 sm:w-fit">
-								<div className="w-full justify-center flex p-6">
-									<FaCoins />
+				<>
+					<div className="max-w-screen-md mx-auto">
+						<div className="flex flex-col my-4">
+							<section id="coin-summary">
+								<div className="mb-6">
+									<h1>{profile.name} Summary</h1>
 								</div>
-								<div
-									className="px-8 pb-6 text-center"
-									dangerouslySetInnerHTML={{
-										__html: profile.description.en,
-									}}
-								/>
-							</div>
-						</section>
-					)}
-					<section
-						id="coin-links"
-						className="flex mobile:flex-col mobile:items-center justify-between my-6"
-					>
-						<CoinPageLinks profile={profile} />
+								<div className="hidden sm:flex sm:justify-between">
+									<CoinPageSummary profile={profile} />
+									<CoinPageMarketSummary profile={profile} />
+									<CoinPageDataSummary profile={profile} />
+								</div>
+								<div className="flex flex-col justify-between items-center sm:hidden">
+									<CoinPageSummary profile={profile} />
+									<CoinPageMarketSummary profile={profile} />
+									<CoinPageDataSummary profile={profile} />
+								</div>
+							</section>
+							{profile.description.en.length > 0 && (
+								<section id="coin-description" className="flex flex-col items-center">
+									<div className="my-6 self-start">
+										<h1>Description</h1>
+									</div>
+									<div className="flex flex-col bg-lightModeWhite dark:bg-darkNonIntComponentBg rounded-lg w-4/5 sm:w-fit">
+										<div className="w-full justify-center flex p-6">
+											<FaCoins />
+										</div>
+										<div
+											className="px-8 pb-6 text-center"
+											dangerouslySetInnerHTML={{
+												__html: profile.description.en,
+											}}
+										/>
+									</div>
+								</section>
+							)}
+							<section
+								id="coin-links"
+								className="flex mobile:flex-col mobile:items-center justify-between my-6"
+							>
+								<CoinPageLinks profile={profile} />
+							</section>
+							<section
+								id="coin-to-currency-convert"
+								className="flex mobile:flex-col sm:justify-center sm:items-center mobile:items-center"
+							>
+								<CryptoToCurrencyConvert profile={profile} />
+							</section>
+						</div>
+					</div>
+					<section id="coin-graph-statistics" className="mt-8 max-w-screen-lg mx-auto">
+						<CoinPageGraph profile={profile} />
 					</section>
-					<section
-						id="coin-to-currency-convert"
-						className="flex mobile:flex-col sm:justify-center sm:items-center mobile:items-center"
-					>
-						<CryptoToCurrencyConvert profile={profile} />
-					</section>
-				</div>
+				</>
 			)}
-		</div>
+		</>
 	);
 };
 

@@ -15,13 +15,13 @@ interface CryptoIdData {
 	};
 	last_updated: string;
 }
-interface CryptoData {
+export interface CryptoData {
 	prices: [number, number][];
 	market_caps: [number, number][];
 	total_volumes: [number, number][];
 }
 
-interface FormatLineGraphInterface {
+export interface FormatLineGraphInterface {
 	labels: string[];
 	prices: number[];
 }
