@@ -52,22 +52,24 @@ const CoinPage: React.FC = () => {
 							<CoinPageDataSummary profile={profile} />
 						</div>
 					</section>
-					<section id="coin-description" className="flex flex-col items-center">
-						<div className="my-6 self-start">
-							<h1>Description</h1>
-						</div>
-						<div className="flex flex-col bg-lightModeWhite dark:bg-darkNonIntComponentBg rounded-lg w-4/5 sm:w-fit">
-							<div className="w-full justify-center flex p-6">
-								<FaCoins />
+					{profile.description.en.length > 0 && (
+						<section id="coin-description" className="flex flex-col items-center">
+							<div className="my-6 self-start">
+								<h1>Description</h1>
 							</div>
-							<div
-								className="px-8 pb-6 text-center"
-								dangerouslySetInnerHTML={{
-									__html: profile.description.en,
-								}}
-							/>
-						</div>
-					</section>
+							<div className="flex flex-col bg-lightModeWhite dark:bg-darkNonIntComponentBg rounded-lg w-4/5 sm:w-fit">
+								<div className="w-full justify-center flex p-6">
+									<FaCoins />
+								</div>
+								<div
+									className="px-8 pb-6 text-center"
+									dangerouslySetInnerHTML={{
+										__html: profile.description.en,
+									}}
+								/>
+							</div>
+						</section>
+					)}
 					<section
 						id="coin-links"
 						className="flex mobile:flex-col mobile:items-center justify-between my-6"

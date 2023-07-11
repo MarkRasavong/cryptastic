@@ -38,7 +38,7 @@ export const timeConverter = (t: string): string => {
 };
 
 export const roundToNumber = (number: number, roundNum: number) => {
-	return +(Math.round(number + Math.pow(10, roundNum)) + 'e-' + roundNum);
+	return +(Math.round(parseFloat(number + `e+${String(roundNum)}`)) + `e-${String(roundNum)}`);
 };
 
 export const setToSciNotation = (decimal: number, roundNum: number) => {
