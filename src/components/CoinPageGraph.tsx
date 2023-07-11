@@ -171,9 +171,11 @@ const CoinPageGraph = ({ profile }: SpecificCoinGraphStatisticsProps) => {
 							value={range.title}
 							checked={range.active}
 							onChange={() => handleRangeChange(range.title)}
-							className={`scale-[2] mr-1 ${range.active ? 'crypto-pg-radio-input' : ''}`}
+							className={`scale-[2] mobile:scale-1 mobile:mr-0 mr-1 ${
+								range.active ? 'crypto-pg-radio-input' : ''
+							}`}
 						/>
-						<span>{range.title}</span>
+						<span className="mobile:text-xs">{range.title}</span>
 					</label>
 				))}
 			</div>
