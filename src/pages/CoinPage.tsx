@@ -7,10 +7,10 @@ import CoinPageMarketSummary from '../components/CoinPageMarketSummary';
 import CoinPageDataSummary from '../components/CoinPageDataSummary';
 import { FaCoins } from 'react-icons/fa';
 import CoinPageLinks from '../components/CoinPageLinks';
+import CryptoToCurrencyConvert from '../components/CryptoToCurrencyConvert';
 
 const CoinPage: React.FC = () => {
 	const { id } = useParams();
-	const currency = useAppSelector((state) => state.currency.value);
 	const [profile, setProfile] = useState<CoinPageData>();
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -73,6 +73,12 @@ const CoinPage: React.FC = () => {
 						className="flex mobile:flex-col mobile:items-center justify-between my-6"
 					>
 						<CoinPageLinks profile={profile} />
+					</section>
+					<section
+						id="coin-to-currency-convert"
+						className="flex mobile:flex-col sm:justify-center sm:items-center mobile:items-center"
+					>
+						<CryptoToCurrencyConvert profile={profile} />
 					</section>
 				</div>
 			)}
