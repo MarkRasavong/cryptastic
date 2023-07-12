@@ -75,7 +75,7 @@ const CoinPage: React.FC = () => {
 							)}
 							<section
 								id="coin-links"
-								className="flex mobile:flex-col mobile:items-center justify-between my-6"
+								className="flex mobile:flex-col mobile:items-center justify-center my-6"
 							>
 								<CoinPageLinks profile={profile} />
 							</section>
