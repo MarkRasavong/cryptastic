@@ -57,3 +57,7 @@ export const setDate = (dateString: number) => {
 	}
     ${hours < 12 ? 'AM' : 'PM'}`;
 };
+
+export const relativeChange = (initialValue: number, finalValue: number) => {
+	return (finalValue - initialValue) / initialValue;
+};

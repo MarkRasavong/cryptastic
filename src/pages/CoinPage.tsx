@@ -273,7 +273,7 @@ export interface CoinPageData {
 			usd: number;
 		};
 		total_supply: number;
-		max_supply: null;
+		max_supply: null | number;
 		circulating_supply: number;
 		sparkline_7d: {
 			price: number[];

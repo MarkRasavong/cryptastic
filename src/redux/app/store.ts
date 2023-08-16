@@ -3,6 +3,7 @@ import theme from '../../features/theme';
 import currency from '../../features/currency';
 import api from '../../features/api';
 import homeMarketGraphs from '../../features/homeMarketGraphs';
+import portfolio from '../../features/portfolio';
 
 export const store = configureStore({
 	reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
 		currency,
 		api,
 		homeMarketGraphs,
+		portfolio,
 	},
 });
 
