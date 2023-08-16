@@ -12,7 +12,6 @@ const PortfolioPage = () => {
 	const currency = useAppSelector((state) => state.currency.value);
 	const [deleteModal, setDeleteModal] = useState(false);
 	const [modal, setModal] = useState(false);
-	const [displayTrashIcon, setDisplayTrashIcon] = useState(false);
 
 	const ProgressBar = ({ className, widthPercentage }: ProgressBarProps) => (
 		<div className={`flex flex-col w-14 justify-center items-center ${className}`}>
@@ -45,7 +44,8 @@ const PortfolioPage = () => {
 				{loading ? (
 					<div>Loading...</div>
 				) : (
-					profiles.map((profile) => {
+					profiles.map((profile, idx) => {
+						const [displayTrashIcon, setDisplayTrashIcon] = useState(false);
 						const marketCapToTotalVol = roundToNumber(
 							(profile.totalVolume * 100) / profile.marketCap,
 							0
@@ -54,11 +54,13 @@ const PortfolioPage = () => {
 						return (
 							<div
 								key={profile.id + keyNumber}
-								className="flex justify-between"
-								onMouseEnter={() => setDisplayTrashIcon(true)}
-								onMouseLeave={() => setDisplayTrashIcon(false)}
+								className={`${idx !== 0 && 'mt-6'} flex justify-between`}
 							>
-								<div className="bg-lightModeWhite dark:bg-darkNonIntComponentBg flex flex-col justify-center items-center rounded-lg sm:items-center cursor-pointer px-8 pb-5">
+								<div
+									className="bg-lightModeWhite dark:bg-darkNonIntComponentBg flex flex-col justify-center items-center rounded-lg sm:items-center cursor-pointer px-8 pb-5"
+									onMouseOver={() => setDisplayTrashIcon(true)}
+									onMouseOut={() => setDisplayTrashIcon(false)}
+								>
 									<div className="mt-6 flex flex-col justify-center items-center">
 										<div className="bg-lightModeBgGray dark:bg-darkIntComponentBg rounded-lg justify-center flex p-4">
 											<img src={profile.image} alt={`${profile.name} logo`} />
@@ -68,11 +70,17 @@ const PortfolioPage = () => {
 												{profile.name}
 												{profile.name.length > 7 && <br />}
 											</span>
-											<span id="profile_symbol_cryptoTitle">BTC</span>
+											<span id="profile_symbol_cryptoTitle">
+												{profile.symbol && ` (${profile.symbol.toUpperCase()})`}
+											</span>
 										</div>
 										<div className="text-[0.5rem] text-center mt-2 w-[80px] h-4 flex justify-center items-center hover:w-12 hover:dark:bg-darkIntComponentBg rounded-lg hover:bg-lightModeBgGray">
 											<span id="asset-last-updated">
-												{displayTrashIcon ? <FaTrash size={'0.5rem'} /> : 'Updated: 02.12.21'}
+												{displayTrashIcon ? (
+													<FaTrash size={'0.5rem'} />
+												) : (
+													`Updated: ${profile.purchase_date}`
+												)}
 											</span>
 										</div>
 									</div>
@@ -102,7 +110,7 @@ const PortfolioPage = () => {
 										</div>
 										<div className="flex p-3 items-center">
 											<p className="mr-1">Market Cap vs Volume: </p>
-											<p className="mr-1">
+											<p className="mr-1 text-cryptoGreen">
 												{isNaN(marketCapToTotalVol) ? '∞' : `${marketCapToTotalVol}%`}
 											</p>
 											<span>
@@ -133,7 +141,11 @@ const PortfolioPage = () => {
 										</div>
 										<div className="flex p-3">
 											<p>Change Since Purchase: </p>{' '}
-											<p className="text-cryptoGreen flex items-center">
+											<p
+												className={`${
+													profile.priceChange > 0 ? 'text-cryptoGreen ' : 'text-cryptoRed'
+												} flex items-center`}
+											>
 												{profile.priceChange > 0 ? <TickerSymbolUp /> : <TickerSymbolDown />}
 												{setCurrency(currency)}
 												{moneySuffix(roundToNumber(profile.priceChange, 2))}

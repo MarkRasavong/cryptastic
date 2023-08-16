@@ -6,6 +6,7 @@ import { relativeChange } from '../utils';
 
 export interface Profile {
 	id: string;
+	symbol: string;
 	image: string;
 	name: string;
 	purchase_date: string;
@@ -80,6 +81,12 @@ const initialState = {
 			name: 'Bitcoin',
 			coinAmount: 12,
 			purchase_date: '12-12-2018',
+		},
+		{
+			id: 'ethereum',
+			name: 'Ethereum',
+			coinAmount: 7,
+			purchase_date: '28-07-2023',
 		},
 	] as Profile[],
 };
