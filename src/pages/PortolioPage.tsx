@@ -74,14 +74,14 @@ const PortfolioPage = () => {
 												{profile.symbol && ` (${profile.symbol.toUpperCase()})`}
 											</span>
 										</div>
-										<div className="text-[0.5rem] text-center mt-2 w-[80px] h-4 flex justify-center items-center hover:w-12 hover:dark:bg-darkIntComponentBg rounded-lg hover:bg-lightModeBgGray">
-											<span id="asset-last-updated">
+										<div className="text-[0.5rem] text-center mt-2 h-8 flex justify-center items-center hover:w-16 hover:dark:bg-darkIntComponentBg rounded-lg hover:bg-lightModeBgGray">
+											<div id="asset-last-updated" className="w-16 flex justify-center">
 												{displayTrashIcon ? (
 													<FaTrash size={'0.5rem'} />
 												) : (
 													`Updated: ${profile.purchase_date}`
 												)}
-											</span>
+											</div>
 										</div>
 									</div>
 								</div>
