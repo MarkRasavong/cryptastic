@@ -85,7 +85,7 @@ const PortfolioPage = () => {
 										</div>
 									</div>
 								</div>
-								<div className="flex flex-col text-xs ml-5">
+								<div className="flex flex-col text-[0.6rem] ml-5">
 									<h6 className="mb-2">Market Price:</h6>
 									<div className="flex justify-around bg-lightModeWhite dark:bg-darkNonIntComponentBg rounded-lg">
 										<div className="flex p-3 items-center">
@@ -97,7 +97,7 @@ const PortfolioPage = () => {
 										</div>
 										<div className="flex p-3 items-center">
 											<p>Price change 24h: </p>{' '}
-											<p>
+											<p className="flex items-center">
 												{profile.priceChange24h > 0 ? <TickerSymbolUp /> : <TickerSymbolDown />}
 												<span
 													className={`${
@@ -129,11 +129,11 @@ const PortfolioPage = () => {
 									<h6 className="my-2">Your Coin:</h6>
 									<div className="flex justify-around bg-lightModeWhite dark:bg-darkNonIntComponentBg rounded-lg">
 										<div className="flex p-3 items-center">
-											<p>Coin Amount: </p>{' '}
+											<p className="mr-1">Coin Amount: </p>{' '}
 											<span className="text-cryptoGreen">{profile.coinAmount}</span>
 										</div>
 										<div className="flex p-3 items-center">
-											<p>Amount Value: </p>{' '}
+											<p className="mr-1">Amount Value: </p>{' '}
 											<span className="text-cryptoGreen">
 												{setCurrency(currency)}
 												{moneySuffix(profile.total)}
@@ -152,7 +152,7 @@ const PortfolioPage = () => {
 											</p>
 										</div>
 										<div className="flex p-3 items-center">
-											<p>Purchase Date: </p>{' '}
+											<p className="mr-1">Purchase Date: </p>{' '}
 											<span className="text-cryptoGreen">{profile.purchase_date}</span>
 										</div>
 									</div>
