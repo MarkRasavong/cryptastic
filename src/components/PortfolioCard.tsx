@@ -17,7 +17,7 @@ interface PortfolioCardProps {
 	onEdit: () => void;
 }
 
-const PortfolioCard = ({ profile, idx }: PortfolioCardProps) => {
+const PortfolioCard = ({ profile, idx, onDelete, onEdit }: PortfolioCardProps) => {
 	const { darkMode } = useAppSelector((state) => state.theme);
 	const currency = useAppSelector((state) => state.currency.value);
 	const [displayTrashIcon, setDisplayTrashIcon] = useState(false);
@@ -49,6 +49,7 @@ const PortfolioCard = ({ profile, idx }: PortfolioCardProps) => {
 				className="bg-lightModeWhite dark:bg-darkNonIntComponentBg ml-5 flex flex-col justify-center items-center rounded-lg sm:items-center cursor-pointer lg:px-8 lg:pb-5 py-10"
 				onMouseOver={() => setDisplayTrashIcon(true)}
 				onMouseOut={() => setDisplayTrashIcon(false)}
+				onClick={onEdit}
 			>
 				<div className="mt-6 flex flex-col justify-center items-center">
 					<div className="bg-lightModeBgGray dark:bg-darkIntComponentBg rounded-lg justify-center flex p-4">
@@ -63,11 +64,16 @@ const PortfolioCard = ({ profile, idx }: PortfolioCardProps) => {
 							{profile.symbol && ` (${profile.symbol.toUpperCase()})`}
 						</span>
 					</div>
-					<div className="text-xs lg:text-[0.5rem] text-center mt-2 h-8 flex justify-center items-center hover:w-16 hover:dark:bg-darkIntComponentBg rounded-lg hover:bg-lightModeBgGray">
-						<div id="asset-last-updated" className="w-16 flex justify-center">
+					<button
+						onClick={(e) => {
+							onDelete(), e.stopPropagation();
+						}}
+						className="text-xs lg:text-[0.5rem] text-center mt-2 h-8 flex justify-center items-center hover:w-16 hover:dark:bg-darkIntComponentBg rounded-lg hover:bg-lightModeBgGray"
+					>
+						<span id="asset-last-updated" className="w-16 flex justify-center">
 							{displayTrashIcon ? <FaTrash size={'0.5rem'} /> : `Updated: ${profile.purchase_date}`}
-						</div>
-					</div>
+						</span>
+					</button>
 				</div>
 			</div>
 			<div className="flex flex-col text-sm lg:text-[0.6rem] ml-5 mt-3 lg:mt-0">

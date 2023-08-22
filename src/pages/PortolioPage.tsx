@@ -18,6 +18,7 @@ const PortfolioPage = () => {
 
 	const handleCardEdit = () => {
 		setModal(true);
+		console.log('clicked');
 	};
 
 	return (
