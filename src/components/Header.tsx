@@ -62,7 +62,7 @@ const Header = () => {
 						name="currency"
 						onChange={(e) => currencyOnChange(e)}
 						value={currencyValue}
-						className={'componentShape px-4 py-2 mr-2 cursor-pointer'}
+						className={'componentShape px-4 mr-2 cursor-pointer'}
 					>
 						{fiatCurrencies.map(({ title, symbol, value }, index) => (
 							<option
@@ -70,7 +70,7 @@ const Header = () => {
 								key={`option_${title}`}
 								className={`${index === 0 ? 'rounded-t-md ' : ''}${
 									index === fiatCurrencies.length - 1 ? 'rounded-b-md' : ''
-								}`}
+								} dark:text-white text-black dark:bg-darkIntComponentBg bg-lightModeBgGray`}
 							>
 								{symbol} {title}
 							</option>
