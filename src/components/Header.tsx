@@ -20,7 +20,10 @@ const Header = () => {
 		dispatch(fetchCoinsAfterCurrencyChange(e.target.value));
 	};
 
-	const linkTabs = ['Overview', 'Portfolio'];
+	const linkTabs = [
+		{ name: 'Overview', link: '/' },
+		{ name: 'Portfolio', link: '/portfolio' },
+	];
 	const fiatCurrencies = [
 		{ title: 'USD', symbol: '$', value: 'usd' },
 		{ title: 'EUR', symbol: '€', value: 'eur' },
@@ -45,14 +48,14 @@ const Header = () => {
 					</div>
 					{linkTabs.map((link, idx) => (
 						<Link
-							to={`${link === '/' ? '/' : `/${link.toLowerCase()}`}`}
+							to={`${link.name === 'Overview' ? '/' : `/${link.name.toLowerCase()}`}`}
 							className={`mr-8 ${
-								pathname === `/${link.toLowerCase()}` &&
+								(pathname === `/${link.name.toLowerCase()}` || pathname === link.link) &&
 								'dark:bg-darkIntComponentBg bg-lightModeBgGray md:px-4 py-2 rounded-md'
 							} hidden md:inline-block`}
 							key={`tab-${link}_${idx}`}
 						>
-							{link}
+							{link.name}
 						</Link>
 					))}
 				</div>
