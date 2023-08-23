@@ -6,6 +6,7 @@ import OverviewPage from './pages/OverviewPage';
 import PortolioPage from './pages/PortolioPage';
 import CoinNavSummary from './components/CoinNavSummary';
 import CoinPage from './pages/CoinPage';
+import Error404 from './pages/Error404';
 
 function App() {
 	const { darkMode } = useAppSelector((state) => state.theme);
@@ -20,9 +21,7 @@ function App() {
 						<Route path="/" element={<OverviewPage />} />
 						<Route path="/portfolio" element={<PortolioPage />} />
 						<Route path={`/coin/:id`} element={<CoinPage />} />
-						{/* Misc. routes goes here 
-              <Route path='*' element={<Error404 />} />
-							*/}
+						<Route path="*" element={<Error404 />} />
 					</Routes>
 				</main>
 			</div>
