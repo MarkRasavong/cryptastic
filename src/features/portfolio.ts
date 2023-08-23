@@ -80,13 +80,13 @@ const initialState = {
 			id: 'bitcoin',
 			name: 'Bitcoin',
 			coinAmount: 12,
-			purchase_date: '12-12-2018',
+			purchase_date: '2018-12-12',
 		},
 		{
 			id: 'ethereum',
 			name: 'Ethereum',
 			coinAmount: 7,
-			purchase_date: '28-07-2023',
+			purchase_date: '2023-07-28',
 		},
 	] as Profile[],
 };
@@ -117,15 +117,16 @@ export const fetchPortfolioData = (): AppThunk => async (dispatch, getState) => 
 	}, {});
 
 	const newPortfolio = await Promise.all(
-		coins.map(async (coin) => {
+		coins.map(async ({ purchase_date, id, coinAmount }) => {
+			const dateByAPI = purchase_date.split('-');
 			const data = await fetch(
-				`https://api.coingecko.com/api/v3/coins/${coin.id}/history?date=${coin.purchase_date}`
+				`https://api.coingecko.com/api/v3/coins/${id}/history?date=${dateByAPI[2]}-${dateByAPI[1]}-${dateByAPI[0]}` //dd/mm/yyyy
 			);
-			const date = coin.purchase_date.split('-');
-			const purchaseDate = `${date[1]}-${date[0]}-${date[2]}`;
+			const date = purchase_date.split('-');
+			const purchaseDate = `${date[2]}-${date[0]}-${date[1]}`;
 			const json: CoinData = await data.json();
 
-			const currentCoin = (await axios(`https://api.coingecko.com/api/v3/coins/${coin.id}`))
+			const currentCoin = (await axios(`https://api.coingecko.com/api/v3/coins/${id}`))
 				.data as CoinPageData;
 
 			return {
@@ -134,10 +135,10 @@ export const fetchPortfolioData = (): AppThunk => async (dispatch, getState) => 
 				symbol: json.symbol,
 				image: json.image.thumb,
 				purchase_date: purchaseDate,
-				coinAmount: coin.coinAmount,
+				coinAmount: coinAmount,
 				marketCap: json.market_data.market_cap[currency],
 				totalVolume: json.market_data.total_volume[currency],
-				total: coin.coinAmount * json.market_data.current_price[currency],
+				total: coinAmount * json.market_data.current_price[currency],
 				previousPrice: json.market_data.current_price[currency],
 				currentPrice: currentCoin.market_data.current_price[currency],
 				priceChange24h: relativeChange(
@@ -147,7 +148,7 @@ export const fetchPortfolioData = (): AppThunk => async (dispatch, getState) => 
 				priceChange:
 					(currentCoin.market_data.current_price[currency] -
 						json.market_data.current_price[currency]) *
-					coin.coinAmount,
+					coinAmount,
 				circulatingSupply: currentCoin.market_data.circulating_supply,
 				maxSupply: currentCoin.market_data.max_supply,
 				isBigger:

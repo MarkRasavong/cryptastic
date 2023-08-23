@@ -13,7 +13,7 @@ interface ProgressBarProps {
 interface PortfolioCardProps {
 	profile: Profile;
 	idx: number;
-	onDelete: () => void;
+	onDelete: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 	onEdit: () => void;
 }
 
@@ -66,7 +66,7 @@ const PortfolioCard = ({ profile, idx, onDelete, onEdit }: PortfolioCardProps) =
 					</div>
 					<button
 						onClick={(e) => {
-							onDelete(), e.stopPropagation();
+							onDelete(e);
 						}}
 						className="text-xs lg:text-[0.5rem] text-center mt-2 h-8 flex justify-center items-center hover:w-16 hover:dark:bg-darkIntComponentBg rounded-lg hover:bg-lightModeBgGray"
 					>
