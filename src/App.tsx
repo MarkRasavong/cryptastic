@@ -16,7 +16,7 @@ function App() {
 			<div className={`${darkMode && 'dark'} min-h-screen flex flex-col`}>
 				<Header />
 				<CoinNavSummary />
-				<main className="dark:bg-darkBg bg-lightModeBgGray flex-grow dark:text-white">
+				<main className="dark:bg-darkBg bg-lightModeBgGray flex-grow dark:text-white pb-8">
 					<Routes>
 						<Route path="/" element={<OverviewPage />} />
 						<Route path="/portfolio" element={<PortolioPage />} />
@@ -24,6 +24,7 @@ function App() {
 						<Route path="*" element={<Error404 />} />
 					</Routes>
 				</main>
+				<Footer />
 			</div>
 		</BrowserRouter>
 	);

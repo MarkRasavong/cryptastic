@@ -44,7 +44,7 @@ const Footer = () => {
 	];
 
 	return (
-		<footer className="fixed bottom-0 50 flex justify-center w-full text-center dark:bg-darkIntComponentBg bg-lightModeBgFooterMobile py-4">
+		<footer className="bottom-0 50 flex justify-center w-full text-center dark:bg-darkIntComponentBg bg-lightModeBgFooterMobile py-4">
 			<div className="hidden md:flex">
 				<a href="https://github.com/drazomo" target="_blank" rel="noopener noreferrer">
 					<GithubIcon className="w-7 rounded-md mb-1 mr-4" />
