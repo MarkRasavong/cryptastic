@@ -1,7 +1,7 @@
 import React from 'react';
 import { GithubIcon } from './icons/GithubIcon';
 import { LinkedInIcon } from './icons/LinkedInIcon';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../redux/app/hooks';
 import { OverviewIcon } from './icons/mobile/OverviewIcon';
 import { PortfolioIcon } from './icons/mobile/PortfolioIcon';
@@ -10,6 +10,7 @@ import { SummaryIcon } from './icons/mobile/SummaryIcon';
 
 const Footer = () => {
 	const { pathname } = useLocation();
+	const navigate = useNavigate();
 	const { darkMode: isDarkMode } = useAppSelector((state) => state.theme);
 
 	const mobileMenuLinks = [
@@ -56,11 +57,25 @@ const Footer = () => {
 				</a>
 			</div>
 			<div className="w-full flex justify-around md:hidden">
-				{mobileMenuLinks.map(({ name, darkModeIcon, lightModeIcon, selectedIcon, link }) => (
-					<Link to={link} key={`mobileLinkTab_${name}`}>
-						{pathname === link ? selectedIcon : isDarkMode ? darkModeIcon : lightModeIcon}
-					</Link>
-				))}
+				{mobileMenuLinks.map(({ name, darkModeIcon, lightModeIcon, selectedIcon, link }) => {
+					if (link !== '/coin/:id') {
+						return (
+							<Link to={link} key={`mobileLinkTab_${name}`}>
+								{pathname === link ? selectedIcon : isDarkMode ? darkModeIcon : lightModeIcon}
+							</Link>
+						);
+					} else {
+						return (
+							<span key={`mobileLinkTab_${name}`}>
+								{pathname.startsWith('/coin/') && !pathname.startsWith('/coin/:id')
+									? selectedIcon
+									: isDarkMode
+									? darkModeIcon
+									: lightModeIcon}
+							</span>
+						);
+					}
+				})}
 			</div>
 		</footer>
 	);
