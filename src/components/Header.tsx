@@ -43,6 +43,9 @@ const Header = () => {
 						<h1 className="font-bold text-2xl md:hidden">
 							{pathname === '/'
 								? 'Overview'
+								: pathname.includes('coin/')
+								? pathname.replace('/coin/', '')[0].toUpperCase() +
+								  pathname.replace('/coin/', '').slice(1)
 								: pathname.replace('/', '').toUpperCase().slice(0, 1) + pathname.slice(2)}
 						</h1>
 					</div>
