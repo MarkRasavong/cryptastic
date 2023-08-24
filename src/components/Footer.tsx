@@ -29,7 +29,7 @@ const Footer = () => {
 		},
 		{
 			name: 'Summary',
-			link: '/summary',
+			link: '/coin/:id',
 			darkModeIcon: <SummaryIcon darkMode className="w-12" />,
 			lightModeIcon: <SummaryIcon className="w-12" />,
 			selectedIcon: <SummaryIcon selected className="w-12" />,

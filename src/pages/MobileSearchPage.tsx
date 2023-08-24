@@ -1,23 +1,15 @@
-import { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import Error404 from './Error404';
+import { debounce } from 'lodash';
 import axios from 'axios';
-import SearchIcon from './icons/SearchIcon';
 import { useNavigate } from 'react-router-dom';
-import debounce from 'lodash/debounce';
+import { Coin } from '../components/SearchBar';
 
-export interface Coin {
-	id: string;
-	name: string;
-	api_symbol: string;
-	symbol: string;
-	market_cap_rank: number | null;
-	thumb: string;
-	large: string;
-}
-
-const SearchBar = () => {
+const MobileSearchPage = () => {
 	const [inputValue, setInputValue] = useState('');
 	const [results, setResults] = useState<Coin[]>([]);
-	const [error, setError] = useState('');
+	const [resultClicked, setResultClicked] = useState(false);
+	// mobileSearch state to highlight summary page search bar
 
 	const navigate = useNavigate();
 	const resultsRef = useRef<HTMLDivElement>(null);
@@ -35,7 +27,7 @@ const SearchBar = () => {
 				?.slice(0, 10);
 			setResults(coins);
 		} catch (err) {
-			setError('An error occurred while searching');
+			console.log('An error occurred while searching');
 		}
 	};
 
@@ -56,7 +48,7 @@ const SearchBar = () => {
 		e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => {
 		e.preventDefault();
-		if (inputValue.length > 0 && results.length > 0) {
+		if (inputValue.length > 0 && results.length > 0 && !resultClicked) {
 			navigate(`/coin/${results[0].id}`);
 		}
 		handleClear();
@@ -86,29 +78,31 @@ const SearchBar = () => {
 	}, []);
 
 	return (
-		<div className="flex flex-col w-full items-end">
-			<div className="w-3/4 relative">
-				<form onSubmit={onSubmit} className="flex items-center justify-end">
+		<div className="min-h-screen p-4 md:p-8 dark:bg-darkBg bg-lightModeBgGray flex justify-center">
+			<div className="md:hidden w-11/12">
+				<form onSubmit={onSubmit} className="flex-col flex">
 					<input
 						type="text"
 						placeholder="Search..."
-						className="componentShape hidden md:inline-block w-full py-2 md:px-4 px-0 md:mr-2 dark:focus:ring-darkModeText"
-						style={{ paddingLeft: '36px' }}
 						value={inputValue}
 						onChange={onChange}
+						className="w-full py-2 px-4 rounded border border-gray-300 text-lightModeText"
 					/>
-					<SearchIcon className="hidden md:inline-block absolute md:w-4 md:left-0 md:ml-3 lg:left-2 lg:ml-0.5 lg:mr-5 top-1/2 transform -translate-y-1/2" />
+					<button className="mt-2 w-full py-2 px-4 bg-blue-500 text-white rounded">Search</button>
 				</form>
 				{results.length > 0 && (
 					<div
 						ref={resultsRef}
-						className="absolute bottom componentShape w-full hidden md:block p-2 z-50 cursor-pointer"
+						className="componentShape block md:hidden p-2 cursor-pointer w-full mt-4"
 					>
 						{results.map((el) => (
 							<div
 								key={el.id}
-								className="flex items-center justify-between py-2 px-4 hover:bg-gray-100 dark:hover:bg-darkNonIntComponentBg"
-								onClick={onSubmit}
+								className="flex items-center justify-between p-4 hover:bg-gray-100 dark:hover:bg-darkNonIntComponentBg w-full"
+								onClick={(e) => {
+									setResultClicked(true);
+									onSubmit(e);
+								}}
 							>
 								<div className="flex items-center">
 									<img src={el.thumb} alt={el.name} className="w-6 h-6 mr-2" />
@@ -120,8 +114,11 @@ const SearchBar = () => {
 					</div>
 				)}
 			</div>
+			<div className="hidden md:block mt-4">
+				<Error404 />
+			</div>
 		</div>
 	);
 };
 
-export default SearchBar;
+export default MobileSearchPage;
