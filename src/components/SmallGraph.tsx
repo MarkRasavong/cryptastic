@@ -11,7 +11,7 @@ import {
 	ChartData,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { CoinGeckoApiProps } from '../constants';
+import { CoinGeckoApiProps } from '../features/api';
 
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
