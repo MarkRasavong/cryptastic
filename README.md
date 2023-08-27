@@ -17,11 +17,11 @@ To set up and run the project locally, follow these steps:
 
 1. Clone the repository:
    ```bash
-git clone https://github.com/your-username/cryptastic.git
-cd cryptastic
-npm install
-npm run dev
-```
+   git clone https://github.com/your-username/cryptastic.git
+   cd cryptastic
+   npm install
+   npm run dev
+   ```
 
 ## Tech Stack
 - React: A JavaScript library for building user interfaces.
