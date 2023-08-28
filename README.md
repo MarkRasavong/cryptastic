@@ -59,3 +59,10 @@ We welcome contributions from the community! If you're interested in contributin
 ## License
 This project is licensed under the MIT License.
 
+## Where to find more:
+
+**Personal Website:** https://markrasavong.com/ <br>
+**Repository:** https://github.com/drazomo/cryptastic <br>
+**My Github Repositories:** https://github.com/drazomo?tab=repositories <br>
+**Email:** rasavong.mark@gmail.com <br>
+**Mobile / WhatsApp:** +1 661 606 0866 / +34 666 996 519
